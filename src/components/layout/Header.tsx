@@ -51,18 +51,8 @@ export function Header({
             </div>
           </div>
 
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-embossed-gold text-lg md:text-xl tracking-wide uppercase font-serif">
-                Defensoría Oficial Civil — San Rafael
-              </h1>
-              <span className="bg-amber-950/80 text-amber-400 text-xs px-2 py-0.5 rounded border border-amber-600/50 font-mono flex items-center gap-1 shadow-inner">
-                <Radio className="w-3 h-3 text-emerald-400 animate-pulse" /> MPD Mendoza
-              </span>
-            </div>
-            <p className="text-amber-200/80 text-xs font-sans tracking-wide">
-              Ministerio Público de la Defensa | Entorno Unificado de Gestión Judicial
-            </p>
+          <div className="h-10 md:h-12 flex items-center">
+            <img src="/logos/banner.png" alt="Banner Ministerio Público de la Defensa" className="h-full w-auto object-contain" />
           </div>
         </div>
 
