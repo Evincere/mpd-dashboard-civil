@@ -52,7 +52,7 @@ export function Header({
           </div>
 
           <div className="h-10 md:h-12 flex items-center">
-            <img src="/logos/banner.png" alt="Banner Ministerio Público de la Defensa" className="h-full w-auto object-contain" />
+            <img src="/logos/banner3.png" alt="Banner Institucional" className="h-full w-auto object-contain" />
           </div>
         </div>
 
