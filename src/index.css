@@ -1,0 +1,1709 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-leather-base: #1e1b18;
+    --color-leather-dark: #12100e;
+    --color-mahogany-base: #2a1610;
+    --color-mahogany-light: #442218;
+    --color-paper-yellow: #fef8d6;
+    --color-paper-line: #d2e4f7;
+    --color-paper-margin: #f48b8b;
+    --color-parchment: #f6f0e2;
+    --color-brass: #d4af37;
+  }
+
+  body {
+    background-color: #1a1715;
+    background-image: 
+      radial-gradient(circle at 50% 30%, rgba(45, 38, 33, 0.8), rgba(15, 12, 10, 0.98)),
+      radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.05), transparent 40%);
+    background-attachment: fixed;
+    color: #2c2520;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* SKEUOMORPHIC UTILITIES */
+
+/* 1. Leather Desk Surface */
+.bg-leather-desk {
+  background: 
+    radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.07), transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(0, 0, 0, 0.6), transparent 70%),
+    linear-gradient(135deg, #241e1a 0%, #171311 50%, #0d0a09 100%);
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
+  position: relative;
+}
+
+/* 2. Mahogany Wood Trim */
+.bg-mahogany {
+  background: 
+    linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.15) 50%, rgba(255,255,255,0.03) 100%),
+    linear-gradient(0deg, #23120b 0%, #3a1d13 50%, #4a261a 100%);
+  border-bottom: 2px solid #5a3022;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 3. Ruled Yellow Legal Paper */
+.bg-paper-legal {
+  background-color: #fef8d6;
+  background-image: 
+    linear-gradient(90deg, transparent 54px, #f48b8b 55px, #f48b8b 56px, transparent 57px),
+    linear-gradient(#d5e5f5 1px, transparent 1px);
+  background-size: 100% 100%, 100% 28px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 0 40px rgba(220, 200, 140, 0.3);
+  position: relative;
+}
+
+/* 4. Archival Manila / Parchment Folder */
+.bg-parchment {
+  background-color: #f7f1e3;
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(255,255,255,0.8), transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(180, 160, 120, 0.25), transparent 50%),
+    linear-gradient(180deg, #faf5eb 0%, #f4ebd9 100%);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    0 2px 5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 2px rgba(160, 130, 90, 0.2);
+}
+
+/* 5. Brushed Metal Control Surface */
+.bg-brushed-metal {
+  background: 
+    linear-gradient(180deg, #48525e 0%, #313842 50%, #22272e 100%);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.8),
+    0 4px 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid #1a1e24;
+}
+
+.bg-brushed-metal-light {
+  background: 
+    linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+  border: 1px solid #64748b;
+}
+
+/* 6. Physical Beveled Metallic Button */
+.btn-metal {
+  background: linear-gradient(180deg, #525e6e 0%, #363e4a 45%, #252b33 50%, #1a1e24 100%);
+  border: 1px solid #14171c;
+  border-radius: 6px;
+  color: #f1f5f9;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.8);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    0 3px 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-metal:hover {
+  background: linear-gradient(180deg, #606d7e 0%, #404a57 45%, #2d343e 50%, #20252c 100%);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.btn-metal:active {
+  background: linear-gradient(180deg, #1d2128 0%, #282f38 100%);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.8),
+    0 1px 2px rgba(0, 0, 0, 0.3);
+  transform: translateY(1px);
+}
+
+/* Gold / Brass Accent Button */
+.btn-brass {
+  background: linear-gradient(180deg, #ecc94b 0%, #d69e2e 45%, #b7791f 50%, #744210 100%);
+  border: 1px solid #521d05;
+  border-radius: 6px;
+  color: #fffbf0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 3px 6px rgba(0, 0, 0, 0.4);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-brass:hover {
+  background: linear-gradient(180deg, #f6e05e 0%, #ecc94b 45%, #c05621 50%, #9c4221 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.btn-brass:active {
+  background: linear-gradient(180deg, #744210 0%, #b7791f 100%);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8);
+  transform: translateY(1px);
+}
+
+/* Red Urgent Metallic Button */
+.btn-burgundy {
+  background: linear-gradient(180deg, #9b2c2c 0%, #742a2a 45%, #521b1b 50%, #361111 100%);
+  border: 1px solid #200808;
+  border-radius: 6px;
+  color: #fff5f5;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.8);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 180, 180, 0.4),
+    0 3px 6px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.btn-burgundy:hover {
+  background: linear-gradient(180deg, #c53030 0%, #9b2c2c 45%, #742a2a 50%, #4a1515 100%);
+}
+
+.btn-burgundy:active {
+  background: linear-gradient(180deg, #2e0d0d 0%, #521b1b 100%);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.9);
+  transform: translateY(1px);
+}
+
+/* 7. Recessed Inset Input Field */
+.input-recessed {
+  background: #f1eddf;
+  border-top: 2px solid #8c8273;
+  border-left: 2px solid #a39886;
+  border-right: 1px solid #e6decb;
+  border-bottom: 1px solid #f5efe1;
+  border-radius: 4px;
+  color: #1a1714;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.35),
+    inset 0 0 2px rgba(0, 0, 0, 0.15);
+  padding: 6px 12px;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.input-recessed:focus {
+  outline: none;
+  background: #ffffff;
+  border-top-color: #2b6cb0;
+  border-left-color: #3182ce;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.2),
+    0 0 0 2px rgba(49, 130, 206, 0.4);
+}
+
+/* Recessed Inset Dark Input for Dark Controls */
+.input-recessed-dark {
+  background: #14171c;
+  border-top: 2px solid #0a0c0e;
+  border-left: 2px solid #0f1216;
+  border-right: 1px solid #2d3540;
+  border-bottom: 1px solid #384250;
+  border-radius: 4px;
+  color: #e2e8f0;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
+  padding: 6px 12px;
+}
+
+.input-recessed-dark:focus {
+  outline: none;
+  border-top-color: #d69e2e;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(214, 158, 46, 0.3);
+}
+
+/* 8. Stitched Leather Border */
+.border-stitched {
+  border: 2px dashed #8c5a32;
+  box-shadow: 0 0 0 2px #3d2310, 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* 9. Embossed Gold & Metal Typography */
+.text-embossed-gold {
+  color: #d4af37;
+  background: linear-gradient(180deg, #fff2a1 0%, #d4af37 60%, #aa7c11 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.9));
+  font-weight: 700;
+}
+
+.text-engraved-metal {
+  color: #2d3748;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8), 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.text-engraved-paper {
+  color: #1e1b18;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* 10. Rubber Stamp Badges */
+.stamp-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-weight: 800;
+  font-family: 'Courier New', Courier, monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  border: 3px double;
+  transform: rotate(-2deg);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.stamp-urgente {
+  color: #9b2c2c;
+  border-color: #9b2c2c;
+  background: rgba(254, 215, 215, 0.6);
+  text-shadow: 0 0 1px rgba(155, 44, 44, 0.3);
+}
+
+.stamp-salud-mental {
+  color: #6b46c1;
+  border-color: #6b46c1;
+  background: rgba(233, 216, 253, 0.6);
+  text-shadow: 0 0 1px rgba(107, 70, 193, 0.3);
+}
+
+.stamp-tramite {
+  color: #b7791f;
+  border-color: #b7791f;
+  background: rgba(254, 235, 200, 0.6);
+}
+
+.stamp-homologado {
+  color: #22543d;
+  border-color: #276749;
+  background: rgba(198, 246, 213, 0.6);
+}
+
+.stamp-asumido {
+  color: #2b6cb0;
+  border-color: #2b6cb0;
+  background: rgba(235, 248, 255, 0.6);
+}
+
+/* 11. Brass Pushpin & Clip Details */
+.brass-pin {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff5c0 0%, #d4af37 40%, #8c6b0d 100%);
+  box-shadow: 
+    0 3px 5px rgba(0, 0, 0, 0.6),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  border: 1px solid #574307;
+  z-index: 10;
+}
+
+.brass-clip {
+  width: 32px;
+  height: 12px;
+  background: linear-gradient(90deg, #8c6b0d 0%, #f6e05e 40%, #d4af37 70%, #574307 100%);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.7);
+  border: 1px solid #3d2f04;
+}
+
+/* Active tab metaphor: Raised physical card */
+.tab-raised-active {
+  background: linear-gradient(180deg, #f7f1e3 0%, #eaddc5 100%);
+  border-top: 3px solid #d4af37;
+  border-left: 1px solid #c8b99e;
+  border-right: 1px solid #c8b99e;
+  border-bottom: none;
+  box-shadow: 
+    0 -4px 10px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  color: #1e1b18;
+  font-weight: 700;
+  transform: translateY(-2px);
+}
+
+.tab-recessed {
+  background: linear-gradient(180deg, #2d3540 0%, #1f242c 100%);
+  border: 1px solid #14171c;
+  color: #a0aec0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.tab-recessed:hover {
+  background: linear-gradient(180deg, #3a4452 0%, #28303a 100%);
+  color: #e2e8f0;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   FLAT DESIGN THEME (TEMA PLANO)
+   - Zero gradients, gloss, or simulated textures
+   - Zero drop shadows, bevels, or specular highlights
+   - Edges defined purely by crisp 1px solid borders and color changes
+   - High contrast (4.5:1+) & identifiable focus/hover states
+   ========================================================================== */
+
+body.theme-flat,
+.theme-flat {
+  background-color: #f1f5f9 !important;
+  background-image: none !important;
+  color: #0f172a !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* Global shadow & gradient reset for Flat Theme */
+.theme-flat *,
+.theme-flat *::before,
+.theme-flat *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+.theme-flat [class*="bg-gradient-"] {
+  background-image: none !important;
+}
+
+/* Surfaces & Container Cards */
+.theme-flat .bg-leather-desk {
+  background-color: #f8fafc !important;
+  background-image: none !important;
+}
+
+.theme-flat .bg-mahogany {
+  background-color: #0f172a !important;
+  background-image: none !important;
+  border-bottom: 2px solid #334155 !important;
+  color: #f8fafc !important;
+}
+
+.theme-flat .bg-paper-legal {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  color: #0f172a !important;
+}
+
+.theme-flat .bg-parchment {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  color: #0f172a !important;
+}
+
+.theme-flat .bg-brushed-metal {
+  background-color: #1e293b !important;
+  background-image: none !important;
+  border: 1px solid #334155 !important;
+  color: #f8fafc !important;
+}
+
+.theme-flat .bg-brushed-metal-light {
+  background-color: #f8fafc !important;
+  background-image: none !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* Buttons (Solid color fills, clear hover/active states, focus rings) */
+.theme-flat .btn-metal {
+  background-color: #2563eb !important;
+  background-image: none !important;
+  border: 1px solid #1d4ed8 !important;
+  border-radius: 6px !important;
+  color: #ffffff !important;
+}
+.theme-flat .btn-metal:hover {
+  background-color: #1d4ed8 !important;
+}
+.theme-flat .btn-metal:active {
+  background-color: #1e40af !important;
+  transform: none !important;
+}
+
+.theme-flat .btn-brass {
+  background-color: #0284c7 !important;
+  background-image: none !important;
+  border: 1px solid #0369a1 !important;
+  border-radius: 6px !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+.theme-flat .btn-brass:hover {
+  background-color: #0369a1 !important;
+}
+.theme-flat .btn-brass:active {
+  background-color: #075985 !important;
+  transform: none !important;
+}
+
+.theme-flat .btn-burgundy {
+  background-color: #dc2626 !important;
+  background-image: none !important;
+  border: 1px solid #b91c1c !important;
+  border-radius: 6px !important;
+  color: #ffffff !important;
+}
+.theme-flat .btn-burgundy:hover {
+  background-color: #b91c1c !important;
+}
+.theme-flat .btn-burgundy:active {
+  background-color: #991b1b !important;
+  transform: none !important;
+}
+
+/* Focus States for Interactive Controls */
+.theme-flat button:focus-visible,
+.theme-flat input:focus-visible,
+.theme-flat select:focus-visible,
+.theme-flat textarea:focus-visible {
+  outline: 2px solid #2563eb !important;
+  outline-offset: 2px !important;
+}
+
+/* Inputs & Form Fields */
+.theme-flat .input-recessed {
+  background-color: #ffffff !important;
+  border: 1px solid #94a3b8 !important;
+  border-radius: 6px !important;
+  color: #0f172a !important;
+}
+.theme-flat .input-recessed:focus {
+  border-color: #2563eb !important;
+  background-color: #ffffff !important;
+}
+
+.theme-flat .input-recessed-dark {
+  background-color: #0f172a !important;
+  border: 1px solid #334155 !important;
+  border-radius: 6px !important;
+  color: #f8fafc !important;
+}
+.theme-flat .input-recessed-dark:focus {
+  border-color: #38bdf8 !important;
+}
+
+/* Borders & Decorative Elements */
+.theme-flat .border-stitched {
+  border: 2px solid #0284c7 !important;
+}
+
+/* Typography & Headings */
+.theme-flat .text-embossed-gold {
+  color: #38bdf8 !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+}
+
+.theme-flat .text-engraved-metal,
+.theme-flat .text-engraved-paper {
+  color: #0f172a !important;
+}
+
+/* Stamps & Badges */
+.theme-flat .stamp-badge {
+  transform: none !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  font-family: inherit !important;
+  border-radius: 4px !important;
+}
+.theme-flat .stamp-urgente {
+  color: #dc2626 !important;
+  border-color: #fca5a5 !important;
+  background-color: #fef2f2 !important;
+}
+.theme-flat .stamp-salud-mental {
+  color: #7c3aed !important;
+  border-color: #ddd6fe !important;
+  background-color: #f5f3ff !important;
+}
+.theme-flat .stamp-tramite {
+  color: #d97706 !important;
+  border-color: #fde68a !important;
+  background-color: #fffbeb !important;
+}
+.theme-flat .stamp-homologado {
+  color: #16a34a !important;
+  border-color: #bbf7d0 !important;
+  background-color: #f0fdf4 !important;
+}
+.theme-flat .stamp-asumido {
+  color: #2563eb !important;
+  border-color: #bfdbfe !important;
+  background-color: #eff6ff !important;
+}
+
+/* Pins & Clips */
+.theme-flat .brass-pin,
+.theme-flat .brass-clip {
+  background-color: #0284c7 !important;
+  border: none !important;
+  border-radius: 2px !important;
+}
+
+/* Tabs Navigation */
+.theme-flat .tab-raised-active {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border: none !important;
+  border-bottom: 3px solid #2563eb !important;
+  color: #2563eb !important;
+  font-weight: 700 !important;
+  transform: none !important;
+}
+
+.theme-flat .tab-raised-active svg {
+  color: #2563eb !important;
+}
+
+.theme-flat .tab-raised-active div {
+  background-color: #2563eb !important;
+  background-image: none !important;
+}
+
+.theme-flat .tab-recessed {
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  color: #64748b !important;
+}
+.theme-flat .tab-recessed:hover {
+  background-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* Modal and Dropdown Card overrides */
+.theme-flat .bg-amber-950\/90,
+.theme-flat .bg-amber-950\/80,
+.theme-flat .bg-amber-950 {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+.theme-flat .bg-amber-50,
+.theme-flat .bg-amber-100,
+.theme-flat .bg-amber-200 {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+.theme-flat .text-amber-100,
+.theme-flat .text-amber-200,
+.theme-flat .text-amber-300,
+.theme-flat .text-amber-400 {
+  color: #e2e8f0 !important;
+}
+
+.theme-flat .text-amber-800,
+.theme-flat .text-amber-900,
+.theme-flat .text-amber-950 {
+  color: #0f172a !important;
+}
+
+.theme-flat .border-amber-800,
+.theme-flat .border-amber-900,
+.theme-flat .border-amber-950 {
+  border-color: #cbd5e1 !important;
+}
+
+/* ==========================================================================
+   FLAT DESIGN THEME - DARK MODE OVERRIDES
+   ========================================================================== */
+
+body.theme-flat.dark-mode,
+.theme-flat.dark-mode {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+.theme-flat.dark-mode .bg-leather-desk {
+  background-color: #0f172a !important;
+}
+
+.theme-flat.dark-mode .bg-mahogany {
+  background-color: #1e293b !important;
+  border-bottom: 2px solid #0f172a !important;
+}
+
+.theme-flat.dark-mode .bg-paper-legal,
+.theme-flat.dark-mode .bg-parchment {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.theme-flat.dark-mode .bg-brushed-metal,
+.theme-flat.dark-mode .bg-brushed-metal-light {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.theme-flat.dark-mode .input-recessed {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.theme-flat.dark-mode .tab-raised-active {
+  background-color: #1e293b !important;
+  border-bottom: 3px solid #3b82f6 !important;
+  color: #3b82f6 !important;
+}
+
+.theme-flat.dark-mode .tab-recessed:hover {
+  background-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.theme-flat.dark-mode .text-engraved-metal,
+.theme-flat.dark-mode .text-engraved-paper {
+  color: #f8fafc !important;
+}
+
+.theme-flat.dark-mode .bg-amber-50,
+.theme-flat.dark-mode .bg-amber-100,
+.theme-flat.dark-mode .bg-amber-200 {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.theme-flat.dark-mode .text-amber-800,
+.theme-flat.dark-mode .text-amber-900,
+.theme-flat.dark-mode .text-amber-950 {
+  color: #f8fafc !important;
+}
+
+.theme-flat.dark-mode .border-amber-800,
+.theme-flat.dark-mode .border-amber-900,
+.theme-flat.dark-mode .border-amber-950 {
+  border-color: #334155 !important;
+}
+
+/* ==========================================================================
+   NEUMORPHISM THEME (SOFT UI)
+   - Matte surface matching controls (#e2e8f0 light / #1e293b dark)
+   - Dual soft shadows: light top-left, dark bottom-right
+   - Inset dual soft shadows for pressed / input / sunken states
+   - No borders anywhere (border: none !important)
+   - Generous rounded corners (border-radius: 14px / 18px)
+   - Saturated primary accent color (#2563eb)
+   - Preserves high contrast text & WCAG visible focus ring
+   ========================================================================== */
+
+body.theme-neumorphic,
+.theme-neumorphic {
+  background-color: #e2e8f0 !important;
+  background-image: none !important;
+  color: #1e293b !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* Global border and texture reset for Neumorphism */
+.theme-neumorphic *,
+.theme-neumorphic *::before,
+.theme-neumorphic *::after {
+  border-style: none !important;
+}
+
+.theme-neumorphic [class*="bg-gradient-"] {
+  background-image: none !important;
+}
+
+/* Base Surfaces & Containers (Raised Soft UI) */
+.theme-neumorphic .bg-leather-desk {
+  background-color: #e2e8f0 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.theme-neumorphic .bg-mahogany {
+  background-color: #e2e8f0 !important;
+  background-image: none !important;
+  box-shadow: 0 8px 20px rgba(148, 163, 184, 0.4) !important;
+  color: #0f172a !important;
+}
+
+.theme-neumorphic .bg-paper-legal,
+.theme-neumorphic .bg-parchment {
+  background-color: #e2e8f0 !important;
+  background-image: none !important;
+  border-radius: 18px !important;
+  box-shadow: -8px -8px 16px rgba(255, 255, 255, 0.95), 8px 8px 18px rgba(148, 163, 184, 0.5) !important;
+  color: #0f172a !important;
+}
+
+.theme-neumorphic .bg-brushed-metal,
+.theme-neumorphic .bg-brushed-metal-light {
+  background-color: #e2e8f0 !important;
+  background-image: none !important;
+  border-radius: 16px !important;
+  box-shadow: -6px -6px 14px rgba(255, 255, 255, 0.9), 6px 6px 14px rgba(148, 163, 184, 0.5) !important;
+  color: #0f172a !important;
+}
+
+/* Raised Soft Buttons */
+.theme-neumorphic .btn-metal {
+  background-color: #e2e8f0 !important;
+  background-image: none !important;
+  border-radius: 12px !important;
+  color: #1e293b !important;
+  font-weight: 600 !important;
+  box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.95), 5px 5px 10px rgba(148, 163, 184, 0.5) !important;
+  transition: all 0.15s ease !important;
+  text-shadow: none !important;
+}
+
+.theme-neumorphic .btn-metal:hover {
+  box-shadow: -7px -7px 14px rgba(255, 255, 255, 1), 7px 7px 14px rgba(148, 163, 184, 0.6) !important;
+  transform: translateY(-1px) !important;
+}
+
+.theme-neumorphic .btn-metal:active {
+  box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.9), inset 4px 4px 8px rgba(148, 163, 184, 0.6) !important;
+  transform: none !important;
+}
+
+/* Saturated Primary Action Accent Button */
+.theme-neumorphic .btn-brass {
+  background-color: #2563eb !important;
+  background-image: none !important;
+  border-radius: 12px !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: -4px -4px 10px rgba(255, 255, 255, 0.8), 5px 5px 12px rgba(37, 99, 235, 0.45) !important;
+  transition: all 0.15s ease !important;
+  text-shadow: none !important;
+}
+
+.theme-neumorphic .btn-brass:hover {
+  background-color: #1d4ed8 !important;
+  box-shadow: -5px -5px 12px rgba(255, 255, 255, 0.9), 6px 6px 14px rgba(29, 78, 216, 0.55) !important;
+}
+
+.theme-neumorphic .btn-brass:active {
+  box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.4), inset 3px 3px 6px rgba(15, 23, 42, 0.4) !important;
+}
+
+/* Red Urgent Neumorphic Button */
+.theme-neumorphic .btn-burgundy {
+  background-color: #dc2626 !important;
+  background-image: none !important;
+  border-radius: 12px !important;
+  color: #ffffff !important;
+  box-shadow: -4px -4px 10px rgba(255, 255, 255, 0.8), 5px 5px 12px rgba(220, 38, 38, 0.45) !important;
+  text-shadow: none !important;
+}
+
+.theme-neumorphic .btn-burgundy:hover {
+  background-color: #b91c1c !important;
+}
+
+.theme-neumorphic .btn-burgundy:active {
+  box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.4), inset 3px 3px 6px rgba(15, 23, 42, 0.4) !important;
+}
+
+/* Inset Soft Inputs & Form Controls */
+.theme-neumorphic .input-recessed,
+.theme-neumorphic .input-recessed-dark {
+  background-color: #e2e8f0 !important;
+  border-radius: 12px !important;
+  color: #0f172a !important;
+  box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.95), inset 4px 4px 8px rgba(148, 163, 184, 0.55) !important;
+  padding: 8px 14px !important;
+}
+
+.theme-neumorphic .input-recessed:focus,
+.theme-neumorphic .input-recessed-dark:focus {
+  outline: 2px solid #2563eb !important;
+  outline-offset: 2px !important;
+  box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 1), inset 5px 5px 10px rgba(148, 163, 184, 0.7) !important;
+}
+
+/* Focus States for Accessibility (WCAG Non-shadow cue) */
+.theme-neumorphic button:focus-visible,
+.theme-neumorphic input:focus-visible,
+.theme-neumorphic select:focus-visible,
+.theme-neumorphic textarea:focus-visible {
+  outline: 2px solid #2563eb !important;
+  outline-offset: 3px !important;
+}
+
+/* Soft Decorative & Stamp Badges */
+.theme-neumorphic .border-stitched {
+  border-radius: 16px !important;
+  box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.9), inset 4px 4px 8px rgba(148, 163, 184, 0.5) !important;
+}
+
+.theme-neumorphic .stamp-badge {
+  transform: none !important;
+  border-radius: 8px !important;
+  font-family: inherit !important;
+  box-shadow: -2px -2px 6px rgba(255, 255, 255, 0.9), 3px 3px 6px rgba(148, 163, 184, 0.4) !important;
+}
+
+.theme-neumorphic .text-embossed-gold {
+  color: #2563eb !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+.theme-neumorphic .text-engraved-metal,
+.theme-neumorphic .text-engraved-paper {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+/* Neumorphic Pins & Clips */
+.theme-neumorphic .brass-pin {
+  background-color: #2563eb !important;
+  box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.9), 2px 2px 4px rgba(148, 163, 184, 0.5) !important;
+}
+
+.theme-neumorphic .brass-clip {
+  background-color: #2563eb !important;
+  box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.9), 2px 2px 4px rgba(148, 163, 184, 0.5) !important;
+  border-radius: 6px !important;
+}
+
+/* Neumorphic Tabs Navigation */
+.theme-neumorphic .tab-raised-active {
+  background-color: #e2e8f0 !important;
+  background-image: none !important;
+  border-radius: 12px 12px 0 0 !important;
+  box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.95), inset 3px 3px 6px rgba(148, 163, 184, 0.55) !important;
+  color: #2563eb !important;
+  font-weight: 700 !important;
+  transform: none !important;
+}
+
+.theme-neumorphic .tab-raised-active svg {
+  color: #2563eb !important;
+}
+
+.theme-neumorphic .tab-raised-active div {
+  background-color: #2563eb !important;
+  border-radius: 4px !important;
+}
+
+.theme-neumorphic .tab-recessed {
+  background-color: #e2e8f0 !important;
+  background-image: none !important;
+  border-radius: 12px 12px 0 0 !important;
+  color: #64748b !important;
+  box-shadow: -3px -3px 6px rgba(255, 255, 255, 0.8), 3px 3px 6px rgba(148, 163, 184, 0.4) !important;
+}
+
+.theme-neumorphic .tab-recessed:hover {
+  color: #0f172a !important;
+  box-shadow: -4px -4px 8px rgba(255, 255, 255, 0.95), 4px 4px 8px rgba(148, 163, 184, 0.5) !important;
+}
+
+/* Card & Modal Overrides for Neumorphism */
+.theme-neumorphic .bg-amber-950\/90,
+.theme-neumorphic .bg-amber-950\/80,
+.theme-neumorphic .bg-amber-950 {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: -8px -8px 18px rgba(255, 255, 255, 0.95), 8px 8px 18px rgba(148, 163, 184, 0.5) !important;
+}
+
+.theme-neumorphic .bg-amber-50,
+.theme-neumorphic .bg-amber-100,
+.theme-neumorphic .bg-amber-200 {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+.theme-neumorphic .text-amber-100,
+.theme-neumorphic .text-amber-200,
+.theme-neumorphic .text-amber-300,
+.theme-neumorphic .text-amber-400,
+.theme-neumorphic .text-amber-800,
+.theme-neumorphic .text-amber-900,
+.theme-neumorphic .text-amber-950 {
+  color: #0f172a !important;
+}
+
+/* ==========================================================================
+   NEUMORPHISM THEME - DARK MODE OVERRIDES (#1e293b matte)
+   ========================================================================== */
+
+body.theme-neumorphic.dark-mode,
+.theme-neumorphic.dark-mode {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.theme-neumorphic.dark-mode .bg-leather-desk,
+.theme-neumorphic.dark-mode .bg-mahogany,
+.theme-neumorphic.dark-mode .bg-paper-legal,
+.theme-neumorphic.dark-mode .bg-parchment,
+.theme-neumorphic.dark-mode .bg-brushed-metal,
+.theme-neumorphic.dark-mode .bg-brushed-metal-light {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  box-shadow: -6px -6px 14px rgba(51, 65, 85, 0.7), 6px 6px 14px rgba(15, 23, 42, 0.8) !important;
+}
+
+.theme-neumorphic.dark-mode .btn-metal {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  box-shadow: -5px -5px 10px rgba(51, 65, 85, 0.7), 5px 5px 10px rgba(15, 23, 42, 0.8) !important;
+}
+
+.theme-neumorphic.dark-mode .btn-metal:active {
+  box-shadow: inset -4px -4px 8px rgba(51, 65, 85, 0.7), inset 4px 4px 8px rgba(15, 23, 42, 0.8) !important;
+}
+
+.theme-neumorphic.dark-mode .input-recessed,
+.theme-neumorphic.dark-mode .input-recessed-dark {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  box-shadow: inset -4px -4px 8px rgba(51, 65, 85, 0.7), inset 4px 4px 8px rgba(15, 23, 42, 0.8) !important;
+}
+
+.theme-neumorphic.dark-mode .tab-raised-active {
+  background-color: #1e293b !important;
+  color: #38bdf8 !important;
+  box-shadow: inset -3px -3px 6px rgba(51, 65, 85, 0.7), inset 3px 3px 6px rgba(15, 23, 42, 0.8) !important;
+}
+
+.theme-neumorphic.dark-mode .tab-recessed {
+  background-color: #1e293b !important;
+  color: #94a3b8 !important;
+  box-shadow: -3px -3px 6px rgba(51, 65, 85, 0.6), 3px 3px 6px rgba(15, 23, 42, 0.7) !important;
+}
+
+.theme-neumorphic.dark-mode .text-embossed-gold,
+.theme-neumorphic.dark-mode .text-engraved-metal,
+.theme-neumorphic.dark-mode .text-engraved-paper {
+  color: #f8fafc !important;
+}
+
+.theme-neumorphic.dark-mode .bg-amber-50,
+.theme-neumorphic.dark-mode .bg-amber-100,
+.theme-neumorphic.dark-mode .bg-amber-200,
+.theme-neumorphic.dark-mode .bg-amber-950,
+.theme-neumorphic.dark-mode .bg-amber-950\/90,
+.theme-neumorphic.dark-mode .bg-amber-950\/80 {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.theme-neumorphic.dark-mode .text-amber-100,
+.theme-neumorphic.dark-mode .text-amber-200,
+.theme-neumorphic.dark-mode .text-amber-300,
+.theme-neumorphic.dark-mode .text-amber-400,
+.theme-neumorphic.dark-mode .text-amber-800,
+.theme-neumorphic.dark-mode .text-amber-900,
+.theme-neumorphic.dark-mode .text-amber-950 {
+  color: #f8fafc !important;
+}
+
+/* ==========================================================================
+   CLAYMORPHISM THEME
+   - Clay shadow recipe: 2 inner shadows (light top, dark bottom) + 1 soft outer drop shadow
+   - Oversized corner radii (~26px)
+   - Independent light pastel fills floating on tinted background (#eef2ff)
+   - Chunky friendly typography & 4.5:1 text contrast
+   - Pressed/hover states deepen inner shadows
+   - Visible WCAG focus rings
+   ========================================================================== */
+
+body.theme-claymorphism,
+.theme-claymorphism {
+  background-color: #eef2ff !important;
+  background-image: none !important;
+  color: #1e1b4b !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-weight: 500 !important;
+}
+
+/* Border reset for Claymorphism */
+.theme-claymorphism *,
+.theme-claymorphism *::before,
+.theme-claymorphism *::after {
+  border-style: none !important;
+}
+
+.theme-claymorphism [class*="bg-gradient-"] {
+  background-image: none !important;
+}
+
+/* Main Background Surface */
+.theme-claymorphism .bg-leather-desk {
+  background-color: #eef2ff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Clay Header Bar */
+.theme-claymorphism .bg-mahogany {
+  background-color: #6366f1 !important;
+  background-image: none !important;
+  border-radius: 0 0 26px 26px !important;
+  box-shadow: 0 20px 35px rgba(99, 102, 241, 0.3), inset 0 -6px 14px rgba(0, 0, 0, 0.2), inset 0 6px 14px rgba(255, 255, 255, 0.4) !important;
+  color: #ffffff !important;
+}
+
+/* Clay Pastel Floating Cards & Panels */
+.theme-claymorphism .bg-paper-legal {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border-radius: 26px !important;
+  box-shadow: 0 24px 40px rgba(99, 102, 241, 0.15), inset 0 -8px 16px rgba(99, 102, 241, 0.12), inset 0 8px 16px rgba(255, 255, 255, 0.85) !important;
+  color: #1e1b4b !important;
+}
+
+.theme-claymorphism .bg-parchment {
+  background-color: #f5f3ff !important;
+  background-image: none !important;
+  border-radius: 26px !important;
+  box-shadow: 0 24px 40px rgba(124, 58, 237, 0.14), inset 0 -8px 16px rgba(124, 58, 237, 0.12), inset 0 8px 16px rgba(255, 255, 255, 0.85) !important;
+  color: #1e1b4b !important;
+}
+
+.theme-claymorphism .bg-brushed-metal,
+.theme-claymorphism .bg-brushed-metal-light {
+  background-color: #e0e7ff !important;
+  background-image: none !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 35px rgba(99, 102, 241, 0.14), inset 0 -6px 14px rgba(79, 70, 229, 0.14), inset 0 6px 14px rgba(255, 255, 255, 0.85) !important;
+  color: #1e1b4b !important;
+}
+
+/* Clay Buttons (Independent Pastel Colors & Deepening Inner Shadows on Press) */
+.theme-claymorphism .btn-brass {
+  background-color: #4f46e5 !important;
+  background-image: none !important;
+  border-radius: 24px !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 16px 30px rgba(79, 70, 229, 0.35), inset 0 -6px 12px rgba(0, 0, 0, 0.25), inset 0 6px 12px rgba(255, 255, 255, 0.45) !important;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  text-shadow: none !important;
+}
+
+.theme-claymorphism .btn-brass:hover {
+  background-color: #4338ca !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 20px 36px rgba(79, 70, 229, 0.4), inset 0 -8px 14px rgba(0, 0, 0, 0.3), inset 0 6px 12px rgba(255, 255, 255, 0.55) !important;
+}
+
+.theme-claymorphism .btn-brass:active {
+  transform: translateY(1px) scale(0.98) !important;
+  box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25), inset 0 -12px 20px rgba(0, 0, 0, 0.45), inset 0 4px 8px rgba(255, 255, 255, 0.3) !important;
+}
+
+.theme-claymorphism .btn-metal {
+  background-color: #dbeafe !important;
+  background-image: none !important;
+  border-radius: 22px !important;
+  color: #1e40af !important;
+  font-weight: 700 !important;
+  box-shadow: 0 14px 28px rgba(30, 64, 175, 0.15), inset 0 -6px 12px rgba(30, 64, 175, 0.15), inset 0 6px 12px rgba(255, 255, 255, 0.9) !important;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  text-shadow: none !important;
+}
+
+.theme-claymorphism .btn-metal:hover {
+  background-color: #bfdbfe !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 18px 32px rgba(30, 64, 175, 0.2), inset 0 -8px 14px rgba(30, 64, 175, 0.2), inset 0 6px 12px rgba(255, 255, 255, 0.95) !important;
+}
+
+.theme-claymorphism .btn-metal:active {
+  transform: translateY(1px) scale(0.98) !important;
+  box-shadow: 0 6px 14px rgba(30, 64, 175, 0.15), inset 0 -10px 18px rgba(30, 64, 175, 0.3), inset 0 4px 8px rgba(255, 255, 255, 0.7) !important;
+}
+
+.theme-claymorphism .btn-burgundy {
+  background-color: #fca5a5 !important;
+  background-image: none !important;
+  border-radius: 22px !important;
+  color: #991b1b !important;
+  font-weight: 700 !important;
+  box-shadow: 0 14px 28px rgba(220, 38, 38, 0.2), inset 0 -6px 12px rgba(185, 28, 28, 0.2), inset 0 6px 12px rgba(255, 255, 255, 0.85) !important;
+  text-shadow: none !important;
+}
+
+.theme-claymorphism .btn-burgundy:hover {
+  background-color: #f87171 !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 18px 32px rgba(220, 38, 38, 0.25), inset 0 -8px 14px rgba(185, 28, 28, 0.25), inset 0 6px 12px rgba(255, 255, 255, 0.9) !important;
+}
+
+.theme-claymorphism .btn-burgundy:active {
+  transform: translateY(1px) scale(0.98) !important;
+  box-shadow: 0 6px 14px rgba(220, 38, 38, 0.15), inset 0 -10px 18px rgba(185, 28, 28, 0.35), inset 0 4px 8px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Inset Clay Form Controls & Inputs */
+.theme-claymorphism .input-recessed,
+.theme-claymorphism .input-recessed-dark {
+  background-color: #f8fafc !important;
+  border-radius: 20px !important;
+  color: #0f172a !important;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), inset 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 -4px 8px rgba(255, 255, 255, 0.85) !important;
+  padding: 10px 16px !important;
+}
+
+.theme-claymorphism .input-recessed:focus,
+.theme-claymorphism .input-recessed-dark:focus {
+  outline: 3px solid #6366f1 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.15), inset 0 5px 10px rgba(79, 70, 229, 0.15), inset 0 -4px 8px rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Accessibility Focus Rings (WCAG 3px visible outline) */
+.theme-claymorphism button:focus-visible,
+.theme-claymorphism input:focus-visible,
+.theme-claymorphism select:focus-visible,
+.theme-claymorphism textarea:focus-visible {
+  outline: 3px solid #6366f1 !important;
+  outline-offset: 3px !important;
+}
+
+/* Soft Clay Badges & Pill Elements */
+.theme-claymorphism .border-stitched {
+  border-radius: 26px !important;
+  box-shadow: 0 20px 35px rgba(99, 102, 241, 0.15), inset 0 -6px 12px rgba(99, 102, 241, 0.12), inset 0 6px 12px rgba(255, 255, 255, 0.85) !important;
+}
+
+.theme-claymorphism .stamp-badge {
+  transform: none !important;
+  border-radius: 16px !important;
+  font-family: inherit !important;
+  font-weight: 700 !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08), inset 0 -3px 6px rgba(0, 0, 0, 0.1), inset 0 3px 6px rgba(255, 255, 255, 0.7) !important;
+}
+
+.theme-claymorphism .text-embossed-gold {
+  color: #4f46e5 !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  filter: none !important;
+  text-shadow: none !important;
+  font-weight: 800 !important;
+}
+
+.theme-claymorphism .text-engraved-metal,
+.theme-claymorphism .text-engraved-paper {
+  color: #1e1b4b !important;
+  text-shadow: none !important;
+}
+
+/* Clay Pins & Clips */
+.theme-claymorphism .brass-pin {
+  background-color: #6366f1 !important;
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3), inset 0 -3px 6px rgba(0, 0, 0, 0.25), inset 0 3px 6px rgba(255, 255, 255, 0.6) !important;
+  border-radius: 50% !important;
+}
+
+.theme-claymorphism .brass-clip {
+  background-color: #6366f1 !important;
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3), inset 0 -3px 6px rgba(0, 0, 0, 0.25), inset 0 3px 6px rgba(255, 255, 255, 0.6) !important;
+  border-radius: 12px !important;
+}
+
+/* Clay Floating Navigation Tabs */
+.theme-claymorphism .tab-raised-active {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border-radius: 20px 20px 0 0 !important;
+  box-shadow: 0 -10px 25px rgba(99, 102, 241, 0.18), inset 0 -6px 12px rgba(99, 102, 241, 0.1), inset 0 6px 12px rgba(255, 255, 255, 0.9) !important;
+  color: #4f46e5 !important;
+  font-weight: 800 !important;
+  transform: translateY(-3px) !important;
+}
+
+.theme-claymorphism .tab-raised-active svg {
+  color: #4f46e5 !important;
+}
+
+.theme-claymorphism .tab-raised-active div {
+  background-color: #4f46e5 !important;
+  border-radius: 6px !important;
+}
+
+.theme-claymorphism .tab-recessed {
+  background-color: #e0e7ff !important;
+  background-image: none !important;
+  border-radius: 20px 20px 0 0 !important;
+  color: #4338ca !important;
+  box-shadow: 0 -4px 12px rgba(99, 102, 241, 0.1), inset 0 -4px 8px rgba(79, 70, 229, 0.08), inset 0 4px 8px rgba(255, 255, 255, 0.7) !important;
+}
+
+.theme-claymorphism .tab-recessed:hover {
+  background-color: #c7d2fe !important;
+  color: #3730a3 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Card & Modal Overrides for Claymorphism */
+.theme-claymorphism .bg-amber-950\/90,
+.theme-claymorphism .bg-amber-950\/80,
+.theme-claymorphism .bg-amber-950 {
+  background-color: #ffffff !important;
+  color: #1e1b4b !important;
+  border-radius: 26px !important;
+  box-shadow: 0 24px 45px rgba(99, 102, 241, 0.2), inset 0 -8px 16px rgba(99, 102, 241, 0.1), inset 0 8px 16px rgba(255, 255, 255, 0.9) !important;
+}
+
+.theme-claymorphism .bg-amber-50,
+.theme-claymorphism .bg-amber-100,
+.theme-claymorphism .bg-amber-200 {
+  background-color: #f5f3ff !important;
+  color: #1e1b4b !important;
+  border-radius: 16px !important;
+}
+
+.theme-claymorphism .text-amber-100,
+.theme-claymorphism .text-amber-200,
+.theme-claymorphism .text-amber-300,
+.theme-claymorphism .text-amber-400,
+.theme-claymorphism .text-amber-800,
+.theme-claymorphism .text-amber-900,
+.theme-claymorphism .text-amber-950 {
+  color: #1e1b4b !important;
+}
+
+/* ==========================================================================
+   CLAYMORPHISM THEME - DARK MODE OVERRIDES (#181825 pastel dark)
+   ========================================================================== */
+
+body.theme-claymorphism.dark-mode,
+.theme-claymorphism.dark-mode {
+  background-color: #181825 !important;
+  color: #f4f4f5 !important;
+}
+
+.theme-claymorphism.dark-mode .bg-leather-desk {
+  background-color: #181825 !important;
+}
+
+.theme-claymorphism.dark-mode .bg-mahogany {
+  background-color: #312e81 !important;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4), inset 0 -6px 14px rgba(0, 0, 0, 0.4), inset 0 6px 14px rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.theme-claymorphism.dark-mode .bg-paper-legal,
+.theme-claymorphism.dark-mode .bg-parchment,
+.theme-claymorphism.dark-mode .bg-brushed-metal,
+.theme-claymorphism.dark-mode .bg-brushed-metal-light {
+  background-color: #2e2a63 !important;
+  color: #f4f4f5 !important;
+  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.45), inset 0 -8px 16px rgba(0, 0, 0, 0.35), inset 0 8px 16px rgba(255, 255, 255, 0.2) !important;
+}
+
+.theme-claymorphism.dark-mode .btn-metal {
+  background-color: #3730a3 !important;
+  color: #ffffff !important;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3), inset 0 -6px 12px rgba(0, 0, 0, 0.35), inset 0 6px 12px rgba(255, 255, 255, 0.25) !important;
+}
+
+.theme-claymorphism.dark-mode .btn-metal:active {
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3), inset 0 -10px 18px rgba(0, 0, 0, 0.5), inset 0 4px 8px rgba(255, 255, 255, 0.15) !important;
+}
+
+.theme-claymorphism.dark-mode .input-recessed,
+.theme-claymorphism.dark-mode .input-recessed-dark {
+  background-color: #1e1b4b !important;
+  color: #f4f4f5 !important;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), inset 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 -4px 8px rgba(255, 255, 255, 0.1) !important;
+}
+
+.theme-claymorphism.dark-mode .tab-raised-active {
+  background-color: #2e2a63 !important;
+  color: #818cf8 !important;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.4), inset 0 -6px 12px rgba(0, 0, 0, 0.35), inset 0 6px 12px rgba(255, 255, 255, 0.2) !important;
+}
+
+.theme-claymorphism.dark-mode .tab-recessed {
+  background-color: #1e1b4b !important;
+  color: #a5b4fc !important;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3), inset 0 -4px 8px rgba(0, 0, 0, 0.3), inset 0 4px 8px rgba(255, 255, 255, 0.15) !important;
+}
+
+.theme-claymorphism.dark-mode .text-embossed-gold,
+.theme-claymorphism.dark-mode .text-engraved-metal,
+.theme-claymorphism.dark-mode .text-engraved-paper {
+  color: #f4f4f5 !important;
+}
+
+.theme-claymorphism.dark-mode .bg-amber-50,
+.theme-claymorphism.dark-mode .bg-amber-100,
+.theme-claymorphism.dark-mode .bg-amber-200,
+.theme-claymorphism.dark-mode .bg-amber-950,
+.theme-claymorphism.dark-mode .bg-amber-950\/90,
+.theme-claymorphism.dark-mode .bg-amber-950\/80 {
+  background-color: #2e2a63 !important;
+  color: #f4f4f5 !important;
+}
+
+.theme-claymorphism.dark-mode .text-amber-100,
+.theme-claymorphism.dark-mode .text-amber-200,
+.theme-claymorphism.dark-mode .text-amber-300,
+.theme-claymorphism.dark-mode .text-amber-400,
+.theme-claymorphism.dark-mode .text-amber-800,
+.theme-claymorphism.dark-mode .text-amber-900,
+.theme-claymorphism.dark-mode .text-amber-950 {
+  color: #f4f4f5 !important;
+}
+
+/* ==========================================================================
+   APPLE LIQUID GLASS THEME
+   - Glass is reserved EXCLUSIVELY for floating control layer (header, navbar, buttons, toolbars)
+   - Underlying content remains opaque, crisp & unrestricted (#ffffff light / #1e293b dark)
+   - Backdrop filter blur + refraction-like edge highlights
+   - Capsule shapes with concentric corner radii (border-radius: 9999px / 24px)
+   - Self-adapting tint for legibility over content
+   - Honor Reduce Transparency & Reduce Motion
+   ========================================================================== */
+
+body.theme-liquid-glass,
+.theme-liquid-glass {
+  background-color: #f8fafc !important;
+  background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12), transparent 40%),
+                    radial-gradient(circle at 90% 90%, rgba(99, 102, 241, 0.08), transparent 40%) !important;
+  color: #0f172a !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif !important;
+}
+
+/* Content cards are OPAQUE and SOLID (never glass) */
+.theme-liquid-glass .bg-paper-legal,
+.theme-liquid-glass .bg-parchment {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04) !important;
+  color: #0f172a !important;
+}
+
+.theme-liquid-glass .bg-leather-desk {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Floating Control Layer: Header Bar (Floating Liquid Glass Toolbar) */
+.theme-liquid-glass .bg-mahogany {
+  background: rgba(255, 255, 255, 0.72) !important;
+  background-image: none !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+  color: #0f172a !important;
+  margin: 8px 0 !important;
+}
+
+/* Floating Control Layer: Navbar Capsule Bar */
+.theme-liquid-glass .bg-brushed-metal {
+  background: rgba(255, 255, 255, 0.65) !important;
+  background-image: none !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+  margin: 4px 0 12px 0 !important;
+}
+
+.theme-liquid-glass .bg-brushed-metal-light {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+  color: #0f172a !important;
+}
+
+/* Liquid Glass Capsule Buttons */
+.theme-liquid-glass .btn-brass {
+  background: rgba(37, 99, 235, 0.88) !important;
+  background-image: none !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 9999px !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  text-shadow: none !important;
+}
+
+.theme-liquid-glass .btn-brass:hover {
+  background: rgba(29, 78, 216, 0.95) !important;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+  transform: translateY(-1px) !important;
+}
+
+.theme-liquid-glass .btn-brass:active {
+  background: rgba(30, 64, 175, 0.98) !important;
+  transform: scale(0.97) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
+}
+
+.theme-liquid-glass .btn-metal {
+  background: rgba(255, 255, 255, 0.72) !important;
+  background-image: none !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 9999px !important;
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  text-shadow: none !important;
+}
+
+.theme-liquid-glass .btn-metal:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 1px #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+.theme-liquid-glass .btn-metal:active {
+  background: rgba(241, 245, 249, 0.95) !important;
+  transform: scale(0.97) !important;
+}
+
+.theme-liquid-glass .btn-burgundy {
+  background: rgba(220, 38, 38, 0.88) !important;
+  background-image: none !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 9999px !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  text-shadow: none !important;
+}
+
+.theme-liquid-glass .btn-burgundy:hover {
+  background: rgba(185, 28, 28, 0.95) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Glass Inputs */
+.theme-liquid-glass .input-recessed,
+.theme-liquid-glass .input-recessed-dark {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(203, 213, 225, 0.8) !important;
+  border-radius: 14px !important;
+  color: #0f172a !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+.theme-liquid-glass .input-recessed:focus,
+.theme-liquid-glass .input-recessed-dark:focus {
+  outline: 2px solid #2563eb !important;
+  outline-offset: 2px !important;
+  border-color: #2563eb !important;
+  background: #ffffff !important;
+}
+
+/* Accessible Focus Ring */
+.theme-liquid-glass button:focus-visible,
+.theme-liquid-glass input:focus-visible,
+.theme-liquid-glass select:focus-visible,
+.theme-liquid-glass textarea:focus-visible {
+  outline: 2px solid #2563eb !important;
+  outline-offset: 2px !important;
+}
+
+/* Glass Floating Tabs */
+.theme-liquid-glass .tab-raised-active {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-radius: 9999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08), inset 0 1px 1px #ffffff !important;
+  color: #2563eb !important;
+  font-weight: 600 !important;
+}
+
+.theme-liquid-glass .tab-raised-active svg {
+  color: #2563eb !important;
+}
+
+.theme-liquid-glass .tab-raised-active div {
+  display: none !important;
+}
+
+.theme-liquid-glass .tab-recessed {
+  background: transparent !important;
+  border-radius: 9999px !important;
+  border: 1px solid transparent !important;
+  color: #64748b !important;
+}
+
+.theme-liquid-glass .tab-recessed:hover {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  color: #0f172a !important;
+}
+
+/* Badges & Stamps */
+.theme-liquid-glass .stamp-badge {
+  transform: none !important;
+  border-radius: 9999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.theme-liquid-glass .text-embossed-gold {
+  color: #2563eb !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  text-shadow: none !important;
+  filter: none !important;
+  font-weight: 700 !important;
+}
+
+.theme-liquid-glass .text-engraved-metal,
+.theme-liquid-glass .text-engraved-paper {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+.theme-liquid-glass .brass-pin,
+.theme-liquid-glass .brass-clip {
+  background: #2563eb !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3) !important;
+}
+
+/* ==========================================================================
+   APPLE LIQUID GLASS THEME - DARK MODE OVERRIDES
+   ========================================================================== */
+
+body.theme-liquid-glass.dark-mode,
+.theme-liquid-glass.dark-mode {
+  background-color: #090d16 !important;
+  background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.1), transparent 40%),
+                    radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.08), transparent 40%) !important;
+  color: #f8fafc !important;
+}
+
+/* Dark mode content cards remain OPAQUE */
+.theme-liquid-glass.dark-mode .bg-paper-legal,
+.theme-liquid-glass.dark-mode .bg-parchment {
+  background-color: #111827 !important;
+  border: 1px solid rgba(51, 65, 85, 0.6) !important;
+  color: #f8fafc !important;
+}
+
+/* Dark Mode Floating Control Layer */
+.theme-liquid-glass.dark-mode .bg-mahogany {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  color: #f8fafc !important;
+}
+
+.theme-liquid-glass.dark-mode .bg-brushed-metal {
+  background: rgba(15, 23, 42, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+.theme-liquid-glass.dark-mode .bg-brushed-metal-light {
+  background: rgba(30, 41, 59, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+}
+
+.theme-liquid-glass.dark-mode .btn-metal {
+  background: rgba(30, 41, 59, 0.72) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #f8fafc !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.theme-liquid-glass.dark-mode .btn-metal:hover {
+  background: rgba(51, 65, 85, 0.85) !important;
+}
+
+.theme-liquid-glass.dark-mode .input-recessed,
+.theme-liquid-glass.dark-mode .input-recessed-dark {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid rgba(51, 65, 85, 0.7) !important;
+  color: #f8fafc !important;
+}
+
+.theme-liquid-glass.dark-mode .tab-raised-active {
+  background: rgba(30, 41, 59, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #38bdf8 !important;
+}
+
+.theme-liquid-glass.dark-mode .tab-recessed {
+  color: #94a3b8 !important;
+}
+
+.theme-liquid-glass.dark-mode .tab-recessed:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #f8fafc !important;
+}
+
+.theme-liquid-glass.dark-mode .text-embossed-gold,
+.theme-liquid-glass.dark-mode .text-engraved-metal,
+.theme-liquid-glass.dark-mode .text-engraved-paper {
+  color: #f8fafc !important;
+}
+
+/* Reduce Transparency & Motion Fallbacks */
+@media (prefers-reduced-transparency: reduce) {
+  .theme-liquid-glass .bg-mahogany,
+  .theme-liquid-glass .bg-brushed-metal,
+  .theme-liquid-glass .btn-brass,
+  .theme-liquid-glass .btn-metal {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-opacity: 1 !important;
+  }
+}
+
+
+
+
+
