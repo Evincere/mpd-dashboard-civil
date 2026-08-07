@@ -42,17 +42,18 @@ export function Header({
     <header className="bg-mahogany text-amber-50 px-4 py-3 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
         
-        {/* Left: Institution Emblem & Title */}
-        <div className="flex items-center gap-3">
-          {/* Official Emblem Logo Badge */}
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-b from-amber-200 via-amber-400 to-amber-700 p-0.5 shadow-xl flex items-center justify-center border border-amber-300">
-            <div className="w-full h-full rounded-lg bg-slate-900 p-1 flex items-center justify-center border border-amber-500/50 shadow-inner">
-              <img src="/logos/logo1.png" alt="Logo Ministerio Público de la Defensa" className="w-full h-full object-contain filter drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]" />
-            </div>
-          </div>
-
-          <div className="h-10 md:h-12 flex items-center">
-            <img src="/logos/banner3.png" alt="Banner Institucional" className="h-full w-auto object-contain" />
+        {/* Left: Institutional Banner */}
+        <div className="flex items-center">
+          <div className="h-10 md:h-14 flex items-center">
+            <img
+              src="/logos/banner3.png"
+              alt="Banner Institucional"
+              className={`h-full w-auto object-contain transition-all ${
+                colorMode === 'dark'
+                  ? 'brightness-0 invert'
+                  : ''
+              }`}
+            />
           </div>
         </div>
 
