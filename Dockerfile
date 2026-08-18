@@ -21,5 +21,5 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN chmod +x ./docker-start.sh
 
-EXPOSE 80 3000 3001
+EXPOSE 80
 CMD ["/app/docker-start.sh"]
