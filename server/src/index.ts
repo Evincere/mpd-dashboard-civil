@@ -12,11 +12,21 @@ import adminRoutes from './presentation/http/routes/adminRoutes.js';
 
 dotenv.config();
 
+// Ensure DATABASE_URL fallback if not set in environment
+if (!process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = "postgresql://postgres:postgrespassword@localhost:5432/defensoria_db?schema=public";
+}
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+
+// Health Check Endpoint
+app.get(['/api/health', '/health'], (req: Request, res: Response) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
 // Routes with and without /api prefix for proxy resilience
 ['/api/auth', '/auth'].forEach(p => app.use(p, authRoutes));
@@ -34,6 +44,10 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     status: 'error',
     message: err.message || 'Internal Server Error'
   });
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
 app.listen(Number(PORT), '0.0.0.0', () => {
