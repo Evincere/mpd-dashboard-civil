@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { FormEvent, ChangeEvent } from 'react';
 import { ShieldCheck, Users, Database, Plus, Trash2, Edit, Activity, CheckCircle, RefreshCw, Server, Eye, EyeOff, Download, Upload } from 'lucide-react';
+import { API_BASE_URL } from '../../infrastructure/api/apiClient';
 
 interface UserData {
   id: string;
@@ -71,7 +72,7 @@ export function AdminPanelView() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/admin/users');
+      const res = await fetch(`${API_BASE_URL}/admin/users`);
       if (res.ok) {
         const data = await res.json();
         setUsers(data);
@@ -83,7 +84,7 @@ export function AdminPanelView() {
 
   const fetchAuditLogs = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/admin/audit-logs');
+      const res = await fetch(`${API_BASE_URL}/admin/audit-logs`);
       if (res.ok) {
         const data = await res.json();
         setAuditLogs(data);
@@ -95,7 +96,7 @@ export function AdminPanelView() {
 
   const fetchDbStats = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/admin/db-stats');
+      const res = await fetch(`${API_BASE_URL}/admin/db-stats`);
       if (res.ok) {
         const data = await res.json();
         setDbStats(data);
@@ -113,7 +114,7 @@ export function AdminPanelView() {
 
   // Database Action Handlers
   const handleDownloadBackup = () => {
-    window.open('http://localhost:3001/api/admin/db/export-backup', '_blank');
+    window.open(`${API_BASE_URL}/admin/db/export-backup`, '_blank');
     setSuccessMsg('Descargando respaldo completo de la base de datos (JSON)...');
   };
 
@@ -132,7 +133,7 @@ export function AdminPanelView() {
         const content = event.target?.result as string;
         const parsedJson = JSON.parse(content);
 
-        const res = await fetch('http://localhost:3001/api/admin/db/restore', {
+        const res = await fetch(`${API_BASE_URL}/admin/db/restore`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(parsedJson)
@@ -160,7 +161,7 @@ export function AdminPanelView() {
     }
 
     try {
-      const res = await fetch('http://localhost:3001/api/admin/db/purge-audit', {
+      const res = await fetch(`${API_BASE_URL}/admin/db/purge-audit`, {
         method: 'POST'
       });
       const data = await res.json();
@@ -207,8 +208,8 @@ export function AdminPanelView() {
 
     try {
       const url = editingUserId
-        ? `http://localhost:3001/api/admin/users/${editingUserId}`
-        : 'http://localhost:3001/api/admin/users';
+        ? `${API_BASE_URL}/admin/users/${editingUserId}`
+        : `${API_BASE_URL}/admin/users`;
       
       const method = editingUserId ? 'PUT' : 'POST';
 
@@ -237,7 +238,7 @@ export function AdminPanelView() {
     }
 
     try {
-      const res = await fetch(`http://localhost:3001/api/admin/users/${user.id}`, {
+      const res = await fetch(`${API_BASE_URL}/admin/users/${user.id}`, {
         method: 'DELETE'
       });
 
