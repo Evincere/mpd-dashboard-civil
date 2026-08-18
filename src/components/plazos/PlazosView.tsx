@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { MouseEvent, FormEvent } from 'react';
 import type { Plazo, PrioridadPlazo } from '../../types';
-import { Clock, Plus, Search, Filter, Calendar, Check } from 'lucide-react';
+import { Clock, Plus, Search, Filter, Calendar, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface PlazosViewProps {
@@ -20,15 +20,24 @@ export function PlazosView({
   const [filterAsignado, setFilterAsignado] = useState<string>('ALL');
   const [showModal, setShowModal] = useState(false);
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
+
   // New Plazo Form state
   const [newCaratula, setNewCaratula] = useState('');
   const [newFecha, setNewFecha] = useState('');
   const [newPrioridad, setNewPrioridad] = useState<PrioridadPlazo>('URG');
-  const [newInitials, setNewInitials] = useState('LA');
+  const [newInitials, setNewInitials] = useState('lalvarado');
   const [newExpediente, setNewExpediente] = useState('');
   const [newObservaciones, setNewObservaciones] = useState('');
 
   const todayStr = new Date().toISOString().split('T')[0];
+
+  // Reset to page 1 on filter change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterPrioridad, filterAsignado, pageSize]);
 
   const handleComplete = (id: string, e: MouseEvent) => {
     e.stopPropagation();
@@ -80,6 +89,10 @@ export function PlazosView({
     return matchesSearch && matchesPrioridad && matchesAsignado;
   });
 
+  const totalPages = Math.ceil(filteredPlazos.length / pageSize) || 1;
+  const startIndex = (currentPage - 1) * pageSize;
+  const paginatedPlazos = filteredPlazos.slice(startIndex, startIndex + pageSize);
+
   return (
     <div className="p-4 md:p-6 space-y-6">
       
@@ -95,7 +108,7 @@ export function PlazosView({
               Control de Plazos Procesales Perentorios
             </h2>
             <p className="text-slate-300 text-xs font-sans">
-              Monitoreo activo de urgencias, internaciones Ley 26.657 y respuestas de vistas
+              Monitoreo activo de urgencias, internaciones Ley 26.657 y respuestas de vistas ({plazos.length} plazos acumulados)
             </p>
           </div>
         </div>
@@ -158,7 +171,7 @@ export function PlazosView({
             onChange={(e) => setFilterAsignado(e.target.value)}
             className="input-recessed text-xs py-1 px-2 font-mono"
           >
-            <option value="ALL">TODOS (LA, JB, JP, AD)</option>
+            <option value="ALL">TODOS (USUARIOS)</option>
             {initialsList.map(init => (
               <option key={init} value={init}>{init}</option>
             ))}
@@ -169,92 +182,144 @@ export function PlazosView({
 
       {/* Grid of Plazos Rendered on Ruled Legal Notebook / Parchment Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filteredPlazos.map((plazo) => {
-          const isToday = plazo.fechaVencimiento === todayStr;
-          const isPast = plazo.fechaVencimiento < todayStr;
-          const isCompleted = plazo.estado === 'CUMPLIDO';
+        {paginatedPlazos.length === 0 ? (
+          <div className="col-span-full py-12 text-center text-amber-900/60 font-serif italic text-xs bg-parchment rounded-xl border border-amber-900/30">
+            No se encontraron plazos procesales que coincidan con el filtro.
+          </div>
+        ) : (
+          paginatedPlazos.map((plazo) => {
+            const isToday = plazo.fechaVencimiento === todayStr;
+            const isPast = plazo.fechaVencimiento < todayStr;
+            const isCompleted = plazo.estado === 'CUMPLIDO';
 
-          return (
-            <div
-              key={plazo.id}
-              className={`bg-parchment p-4 rounded-lg relative transition-all duration-200 ${
-                isCompleted
-                  ? 'opacity-70 grayscale-[0.3]'
-                  : isToday
-                  ? 'ring-4 ring-red-600/80 shadow-2xl scale-[1.01]'
-                  : 'hover:shadow-2xl'
-              }`}
-            >
-              {/* Physical Brass Pushpin on Card */}
-              <div className="brass-pin -top-2 left-6" />
+            return (
+              <div
+                key={plazo.id}
+                className={`bg-parchment p-4 rounded-lg relative transition-all duration-200 ${
+                  isCompleted
+                    ? 'opacity-70 grayscale-[0.3]'
+                    : isToday
+                    ? 'ring-4 ring-red-600/80 shadow-2xl scale-[1.01]'
+                    : 'hover:shadow-2xl'
+                }`}
+              >
+                {/* Physical Brass Pushpin on Card */}
+                <div className="brass-pin -top-2 left-6" />
 
-              {/* Status Stamp Badge */}
-              <div className="flex items-start justify-between gap-2 mb-2">
-                {isCompleted ? (
-                  <span className="stamp-badge stamp-homologado">CUMPLIDO</span>
-                ) : isToday ? (
-                  <span className="stamp-badge stamp-urgente animate-pulse">VENCE HOY</span>
-                ) : isPast ? (
-                  <span className="stamp-badge stamp-urgente">VENCIDO</span>
-                ) : plazo.prioridad === 'URG' ? (
-                  <span className="stamp-badge stamp-urgente">URGENTE</span>
-                ) : (
-                  <span className="stamp-badge stamp-tramite">EN PLAZO</span>
-                )}
+                {/* Status Stamp Badge */}
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  {isCompleted ? (
+                    <span className="stamp-badge stamp-homologado">CUMPLIDO</span>
+                  ) : isToday ? (
+                    <span className="stamp-badge stamp-urgente animate-pulse">VENCE HOY</span>
+                  ) : isPast ? (
+                    <span className="stamp-badge stamp-urgente">VENCIDO</span>
+                  ) : plazo.prioridad === 'URG' ? (
+                    <span className="stamp-badge stamp-urgente">URGENTE</span>
+                  ) : (
+                    <span className="stamp-badge stamp-tramite">EN PLAZO</span>
+                  )}
 
-                {/* Assigned Initials Plaque */}
-                <span className="bg-amber-900 text-amber-200 font-mono font-bold text-xs px-2 py-0.5 rounded border border-amber-700 shadow-inner">
-                  {plazo.asignadoInitials}
-                </span>
-              </div>
-
-              {/* Expediente & Date info */}
-              <div className="text-xs font-mono text-amber-900/80 flex items-center justify-between border-b border-amber-900/15 pb-2 mb-2">
-                <span className="flex items-center gap-1 font-bold">
-                  <Calendar className="w-3.5 h-3.5 text-amber-800" />
-                  Vencimiento: {plazo.fechaVencimiento}
-                </span>
-                {plazo.expedienteNro && (
-                  <span className="bg-amber-200/60 px-1.5 py-0.5 rounded text-[11px]">
-                    {plazo.expedienteNro}
+                  {/* Assigned Initials Plaque */}
+                  <span className="bg-amber-900 text-amber-200 font-mono font-bold text-xs px-2 py-0.5 rounded border border-amber-700 shadow-inner">
+                    {plazo.asignadoInitials}
                   </span>
+                </div>
+
+                {/* Expediente & Date info */}
+                <div className="text-xs font-mono text-amber-900/80 flex items-center justify-between border-b border-amber-900/15 pb-2 mb-2">
+                  <span className="flex items-center gap-1 font-bold">
+                    <Calendar className="w-3.5 h-3.5 text-amber-800" />
+                    Vencimiento: {plazo.fechaVencimiento}
+                  </span>
+                  {plazo.expedienteNro && (
+                    <span className="bg-amber-200/60 px-1.5 py-0.5 rounded text-[11px]">
+                      {plazo.expedienteNro}
+                    </span>
+                  )}
+                </div>
+
+                {/* Carátula */}
+                <h3 className="font-serif text-sm text-amber-950 font-bold leading-snug mb-2 line-clamp-3">
+                  {plazo.caratula}
+                </h3>
+
+                {/* Observaciones */}
+                {plazo.observaciones && (
+                  <p className="text-xs text-amber-900/90 font-sans italic bg-amber-100/60 p-2 rounded border border-amber-300/40 mb-3">
+                    "{plazo.observaciones}"
+                  </p>
                 )}
+
+                {/* Bottom Action Bar */}
+                <div className="pt-2 flex items-center justify-between border-t border-amber-900/10">
+                  <span className="text-[11px] text-amber-800 font-mono">
+                    {plazo.asignadoNombre || `Asignado: ${plazo.asignadoInitials}`}
+                  </span>
+
+                  <button
+                    onClick={(e) => handleComplete(plazo.id, e)}
+                    className={`px-3 py-1 text-xs rounded font-bold flex items-center gap-1 transition ${
+                      isCompleted
+                        ? 'bg-amber-800 text-amber-100 hover:bg-amber-900'
+                        : 'btn-brass text-amber-950 hover:text-white'
+                    }`}
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                    <span>{isCompleted ? 'Reabrir' : 'Dar por Cumplido'}</span>
+                  </button>
+                </div>
+
               </div>
+            );
+          })
+        )}
+      </div>
 
-              {/* Carátula */}
-              <h3 className="font-serif text-sm text-amber-950 font-bold leading-snug mb-2 line-clamp-3">
-                {plazo.caratula}
-              </h3>
+      {/* Pagination Bar */}
+      <div className="bg-mahogany p-3.5 rounded-lg border border-amber-900 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-serif text-amber-100">
+        
+        <div className="flex items-center gap-2">
+          <span>Mostrar</span>
+          <select
+            value={pageSize}
+            onChange={(e) => setPageSize(Number(e.target.value))}
+            className="input-recessed text-xs py-0.5 px-2 font-mono text-amber-950"
+          >
+            <option value={15}>15 por pág.</option>
+            <option value={25}>25 por pág.</option>
+            <option value={50}>50 por pág.</option>
+            <option value={100}>100 por pág.</option>
+          </select>
+          <span className="text-amber-200 font-mono text-[11px] ml-2">
+            Mostrando {filteredPlazos.length > 0 ? startIndex + 1 : 0} - {Math.min(startIndex + pageSize, filteredPlazos.length)} de {filteredPlazos.length} plazos
+          </span>
+        </div>
 
-              {/* Observaciones */}
-              {plazo.observaciones && (
-                <p className="text-xs text-amber-900/90 font-sans italic bg-amber-100/60 p-2 rounded border border-amber-300/40 mb-3">
-                  "{plazo.observaciones}"
-                </p>
-              )}
+        <div className="flex items-center gap-1.5 font-mono">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            className="btn-metal px-2.5 py-1 text-xs disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+            <span>Anterior</span>
+          </button>
 
-              {/* Bottom Action Bar */}
-              <div className="pt-2 flex items-center justify-between border-t border-amber-900/10">
-                <span className="text-[11px] text-amber-800 font-mono">
-                  {plazo.asignadoNombre || `Asignado: ${plazo.asignadoInitials}`}
-                </span>
+          <span className="px-3 py-1 font-bold text-amber-200 dark:text-amber-200 bg-amber-950 dark:bg-slate-800 rounded border border-amber-700 dark:border-slate-600 shadow">
+            Pág. {currentPage} de {totalPages}
+          </span>
 
-                <button
-                  onClick={(e) => handleComplete(plazo.id, e)}
-                  className={`px-3 py-1 text-xs rounded font-bold flex items-center gap-1 transition ${
-                    isCompleted
-                      ? 'bg-amber-800 text-amber-100 hover:bg-amber-900'
-                      : 'btn-brass text-amber-950 hover:text-white'
-                  }`}
-                >
-                  <Check className="w-3.5 h-3.5" />
-                  <span>{isCompleted ? 'Reabrir' : 'Dar por Cumplido'}</span>
-                </button>
-              </div>
+          <button
+            disabled={currentPage >= totalPages}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            className="btn-metal px-2.5 py-1 text-xs disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+          >
+            <span>Siguiente</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
 
-            </div>
-          );
-        })}
       </div>
 
       {/* Modal para Alta de Plazo (Real Skeuomorphic Parchment Window) */}
@@ -314,15 +379,15 @@ export function PlazosView({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-amber-900 font-bold mb-1">Iniciales Asignado *</label>
+                  <label className="block text-amber-900 font-bold mb-1">Usuario Asignado *</label>
                   <input
                     type="text"
                     required
-                    maxLength={3}
+                    maxLength={20}
                     value={newInitials}
-                    onChange={(e) => setNewInitials(e.target.value.toUpperCase())}
-                    placeholder="LA, JB, JP, AD"
-                    className="input-recessed w-full font-mono text-xs font-bold uppercase"
+                    onChange={(e) => setNewInitials(e.target.value.toLowerCase())}
+                    placeholder="lalvarado, adimenza..."
+                    className="input-recessed w-full font-mono text-xs font-bold"
                   />
                 </div>
 

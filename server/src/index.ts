@@ -1,0 +1,41 @@
+import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+import authRoutes from './presentation/http/routes/authRoutes.js';
+import plazoRoutes from './presentation/http/routes/plazoRoutes.js';
+import causaRoutes from './presentation/http/routes/causaRoutes.js';
+import tareaRoutes from './presentation/http/routes/tareaRoutes.js';
+import convenioRoutes from './presentation/http/routes/convenioRoutes.js';
+import atencionRoutes from './presentation/http/routes/atencionRoutes.js';
+import adminRoutes from './presentation/http/routes/adminRoutes.js';
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/plazos', plazoRoutes);
+app.use('/api/causas', causaRoutes);
+app.use('/api/tareas', tareaRoutes);
+app.use('/api/convenios', convenioRoutes);
+app.use('/api/atencion', atencionRoutes);
+app.use('/api/admin', adminRoutes);
+
+// Global Error Handler
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error('Unhandled Error:', err);
+  res.status(500).json({
+    status: 'error',
+    message: err.message || 'Internal Server Error'
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor Backend Hexagonal corriendo en http://localhost:${PORT}`);
+});

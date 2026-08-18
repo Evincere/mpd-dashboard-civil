@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import type { Convenio, EstadoConvenio, TipoConvenio } from '../../types';
-import { Plus, Search, HeartPulse, CheckCircle2 } from 'lucide-react';
+import { Plus, Search, HeartPulse, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface ConveniosViewProps {
@@ -20,11 +20,20 @@ export function ConveniosView({
   const [filterTipo, setFilterTipo] = useState<string>('ALL');
   const [showModal, setShowModal] = useState(false);
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
+
   // Form State
   const [newExpte, setNewExpte] = useState('');
   const [newTipo, setNewTipo] = useState<TipoConvenio>('GESTION OSEP MEDICAMENTO');
   const [newEstado, setNewEstado] = useState<EstadoConvenio>('NO INICIADO');
   const [newObservaciones, setNewObservaciones] = useState('');
+
+  // Reset to page 1 on filter change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterEstado, filterTipo, pageSize]);
 
   const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -63,6 +72,10 @@ export function ConveniosView({
     return matchesSearch && matchesEstado && matchesTipo;
   });
 
+  const totalPages = Math.ceil(filteredConvenios.length / pageSize) || 1;
+  const startIndex = (currentPage - 1) * pageSize;
+  const paginatedConvenios = filteredConvenios.slice(startIndex, startIndex + pageSize);
+
   return (
     <div className="p-4 md:p-6 space-y-6">
       
@@ -78,7 +91,7 @@ export function ConveniosView({
               Gestiones Extrajudiciales, OSEP y Convenios
             </h2>
             <p className="text-slate-300 text-xs font-sans">
-              Trámites ante OSEP (medicamentos, prótesis), mediaciones de división de bienes y acuerdos de pago
+              Trámites ante OSEP (medicamentos, prótesis), mediaciones de división de bienes y acuerdos de pago ({convenios.length} gestiones acumuladas)
             </p>
           </div>
         </div>
@@ -138,70 +151,120 @@ export function ConveniosView({
 
       {/* Grid of Parchment Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {filteredConvenios.map((cnv) => {
-          const isAceptado = cnv.resultado === 'ACEPTADO';
-          const isOsep = cnv.tipoConvenio.includes('OSEP');
+        {paginatedConvenios.length === 0 ? (
+          <div className="col-span-full py-12 text-center text-amber-900/60 font-serif italic text-xs bg-parchment rounded-xl border border-amber-900/30">
+            No se encontraron convenios ni gestiones que coincidan con la búsqueda.
+          </div>
+        ) : (
+          paginatedConvenios.map((cnv) => {
+            const isAceptado = cnv.resultado === 'ACEPTADO';
+            const isOsep = cnv.tipoConvenio.includes('OSEP');
 
-          return (
-            <div
-              key={cnv.id}
-              className="bg-parchment p-4 rounded-xl relative shadow-xl border-2 border-amber-900/40 flex flex-col justify-between space-y-3"
-            >
-              {/* Paper clip metaphor */}
-              <div className="brass-clip absolute -top-2.5 right-8" />
+            return (
+              <div
+                key={cnv.id}
+                className="bg-parchment p-4 rounded-xl relative shadow-xl border-2 border-amber-900/40 flex flex-col justify-between space-y-3"
+              >
+                {/* Paper clip metaphor */}
+                <div className="brass-clip absolute -top-2.5 right-8" />
 
-              <div>
-                {/* Header stamps */}
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  {isAceptado ? (
-                    <span className="stamp-badge stamp-homologado">ACEPTADO / HOMOLOGADO</span>
-                  ) : (
-                    <span className="stamp-badge stamp-tramite">{cnv.resultado}</span>
+                <div>
+                  {/* Header stamps */}
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    {isAceptado ? (
+                      <span className="stamp-badge stamp-homologado">ACEPTADO / HOMOLOGADO</span>
+                    ) : (
+                      <span className="stamp-badge stamp-tramite">{cnv.resultado}</span>
+                    )}
+
+                    <span className="text-xs font-mono font-bold text-amber-900 bg-amber-200/70 px-2 py-0.5 rounded">
+                      {cnv.fecha}
+                    </span>
+                  </div>
+
+                  {/* Tipo badge */}
+                  <div className="mb-2">
+                    <span className={`inline-block text-[10px] font-mono font-bold px-2 py-0.5 rounded shadow-sm ${
+                      isOsep ? 'bg-purple-900 text-purple-100' : 'bg-amber-900 text-amber-100'
+                    }`}>
+                      {cnv.tipoConvenio}
+                    </span>
+                  </div>
+
+                  {/* Title / Expte */}
+                  <h3 className="font-serif text-sm font-bold text-amber-950 leading-snug">
+                    {cnv.expteCaratula}
+                  </h3>
+
+                  {/* Observaciones */}
+                  <p className="text-xs font-sans text-amber-900/90 bg-amber-100/60 p-2 rounded border border-amber-300/40 mt-2">
+                    {cnv.observaciones}
+                  </p>
+                </div>
+
+                {/* Action */}
+                <div className="pt-2 border-t border-amber-900/10 flex items-center justify-between text-xs">
+                  <span className="font-mono text-amber-800 font-bold">Estado: {cnv.estado}</span>
+
+                  {!isAceptado && (
+                    <button
+                      onClick={() => handleAceptar(cnv.id)}
+                      className="btn-brass px-3 py-1 font-bold text-[11px] flex items-center gap-1"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>Marcar Aceptado</span>
+                    </button>
                   )}
-
-                  <span className="text-xs font-mono font-bold text-amber-900 bg-amber-200/70 px-2 py-0.5 rounded">
-                    {cnv.fecha}
-                  </span>
                 </div>
 
-                {/* Tipo badge */}
-                <div className="mb-2">
-                  <span className={`inline-block text-[10px] font-mono font-bold px-2 py-0.5 rounded shadow-sm ${
-                    isOsep ? 'bg-purple-900 text-purple-100' : 'bg-amber-900 text-amber-100'
-                  }`}>
-                    {cnv.tipoConvenio}
-                  </span>
-                </div>
-
-                {/* Title / Expte */}
-                <h3 className="font-serif text-sm font-bold text-amber-950 leading-snug">
-                  {cnv.expteCaratula}
-                </h3>
-
-                {/* Observaciones */}
-                <p className="text-xs font-sans text-amber-900/90 bg-amber-100/60 p-2 rounded border border-amber-300/40 mt-2">
-                  {cnv.observaciones}
-                </p>
               </div>
+            );
+          })
+        )}
+      </div>
 
-              {/* Action */}
-              <div className="pt-2 border-t border-amber-900/10 flex items-center justify-between text-xs">
-                <span className="font-mono text-amber-800 font-bold">Estado: {cnv.estado}</span>
+      {/* Pagination Bar */}
+      <div className="bg-mahogany p-3.5 rounded-lg border border-amber-900 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-serif text-amber-100">
+        <div className="flex items-center gap-2">
+          <span>Mostrar</span>
+          <select
+            value={pageSize}
+            onChange={(e) => setPageSize(Number(e.target.value))}
+            className="input-recessed text-xs py-0.5 px-2 font-mono text-amber-950"
+          >
+            <option value={15}>15 por pág.</option>
+            <option value={25}>25 por pág.</option>
+            <option value={50}>50 por pág.</option>
+            <option value={100}>100 por pág.</option>
+          </select>
+          <span className="text-amber-200 font-mono text-[11px] ml-2">
+            Mostrando {filteredConvenios.length > 0 ? startIndex + 1 : 0} - {Math.min(startIndex + pageSize, filteredConvenios.length)} de {filteredConvenios.length} convenios
+          </span>
+        </div>
 
-                {!isAceptado && (
-                  <button
-                    onClick={() => handleAceptar(cnv.id)}
-                    className="btn-brass px-3 py-1 font-bold text-[11px] flex items-center gap-1"
-                  >
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>Marcar Aceptado</span>
-                  </button>
-                )}
-              </div>
+        <div className="flex items-center gap-1.5 font-mono">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            className="btn-metal px-2.5 py-1 text-xs disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+            <span>Anterior</span>
+          </button>
 
-            </div>
-          );
-        })}
+          <span className="px-3 py-1 font-bold text-amber-200 dark:text-amber-200 bg-amber-950 dark:bg-slate-800 rounded border border-amber-700 dark:border-slate-600 shadow">
+            Pág. {currentPage} de {totalPages}
+          </span>
+
+          <button
+            disabled={currentPage >= totalPages}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            className="btn-metal px-2.5 py-1 text-xs disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+          >
+            <span>Siguiente</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
 
       {/* Modal Nuevo Convenio */}

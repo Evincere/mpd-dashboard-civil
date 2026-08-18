@@ -4,7 +4,6 @@ import { Bell, User, CheckCircle, Sparkles, LayoutGrid, Droplets, Shapes, Gem, S
 
 interface HeaderProps {
   currentUser: UserProfile;
-  onRoleChange: (role: UserRole) => void;
   notifications: PushNotification[];
   onMarkNotificationRead: (id: string) => void;
   onNavigateTab: (tab: string) => void;
@@ -16,7 +15,6 @@ interface HeaderProps {
 
 export function Header({
   currentUser,
-  onRoleChange,
   notifications,
   onMarkNotificationRead,
   onNavigateTab,
@@ -26,18 +24,10 @@ export function Header({
   onToggleColorMode
 }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showRoleMenu, setShowRoleMenu] = useState(false);
-
+  
   const unreadCount = notifications.filter(n => !n.read).length;
 
-  const rolesList: UserRole[] = [
-    'Defensor/a',
-    'Codefensor/a',
-    'Secretario/a',
-    'Prosecretario/a',
-    'Empleado/a'
-  ];
-
+  
   return (
     <header className="bg-mahogany text-amber-50 px-4 py-3 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
@@ -144,8 +134,12 @@ export function Header({
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 md:w-96 bg-parchment text-amber-950 rounded-lg shadow-2xl border-2 border-amber-800/80 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2">
-                <div className="bg-mahogany text-amber-200 px-4 py-2.5 flex items-center justify-between border-b border-amber-800">
+              <div className={`absolute right-0 mt-2 w-80 md:w-96 rounded-lg shadow-2xl border-2 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 ${
+                colorMode === 'dark' ? 'bg-slate-800 text-amber-50 border-slate-600' : 'bg-parchment text-amber-950 border-amber-800/80'
+              }`}>
+                <div className={`px-4 py-2.5 flex items-center justify-between border-b ${
+                  colorMode === 'dark' ? 'bg-slate-900 text-amber-200 border-slate-700' : 'bg-mahogany text-amber-200 border-amber-800'
+                }`}>
                   <span className="font-serif font-bold text-sm flex items-center gap-2">
                     <Bell className="w-4 h-4 text-amber-400" /> Push / Alertas en Vivo
                   </span>
@@ -166,19 +160,21 @@ export function Header({
                           if (n.linkTab) onNavigateTab(n.linkTab);
                           setShowNotifications(false);
                         }}
-                        className={`p-3 text-xs cursor-pointer hover:bg-amber-100/80 transition ${
-                          !n.read ? 'bg-amber-50 font-semibold border-l-4 border-amber-600' : 'opacity-80'
+                        className={`p-3 text-xs cursor-pointer transition ${
+                          colorMode === 'dark'
+                            ? (!n.read ? 'bg-slate-700 font-semibold border-l-4 border-amber-500 hover:bg-slate-600' : 'hover:bg-slate-700/80 opacity-80 border-l-4 border-transparent')
+                            : (!n.read ? 'bg-amber-50 font-semibold border-l-4 border-amber-600 hover:bg-amber-100/80' : 'hover:bg-amber-100/80 opacity-80 border-l-4 border-transparent')
                         }`}
                       >
                         <div className="flex items-start justify-between gap-2">
                           <span className={`font-bold ${
-                            n.level === 'CRITICAL' ? 'text-red-700' : n.level === 'WARNING' ? 'text-amber-800' : 'text-blue-800'
+                            n.level === 'CRITICAL' ? 'text-red-500' : n.level === 'WARNING' ? 'text-amber-500' : 'text-blue-400'
                           }`}>
                             {n.title}
                           </span>
-                          <span className="text-[10px] text-amber-700 font-mono whitespace-nowrap">{n.timestamp}</span>
+                          <span className={`text-[10px] font-mono whitespace-nowrap ${colorMode === 'dark' ? 'text-slate-400' : 'text-amber-700'}`}>{n.timestamp}</span>
                         </div>
-                        <p className="text-amber-900 mt-1 line-clamp-2">{n.message}</p>
+                        <p className={`mt-1 line-clamp-2 ${colorMode === 'dark' ? 'text-slate-300' : 'text-amber-900'}`}>{n.message}</p>
                       </div>
                     ))
                   )}
@@ -187,41 +183,26 @@ export function Header({
             )}
           </div>
 
-          {/* User Profile & Role Switcher */}
-          <div className="relative">
-            <button
-              onClick={() => setShowRoleMenu(!showRoleMenu)}
-              className="btn-brass px-3 py-1.5 flex items-center gap-2 text-xs shadow-md"
-            >
+          {/* User Profile & Logout */}
+          <div className="relative flex items-center gap-2">
+            <div className="btn-brass px-3 py-1.5 flex items-center gap-2 text-xs shadow-md opacity-90 cursor-default">
               <User className="w-4 h-4 text-amber-100" />
               <div className="text-left hidden sm:block">
                 <div className="font-bold text-white text-xs leading-none">{currentUser.name}</div>
                 <div className="text-[10px] text-amber-100 font-mono">{currentUser.role}</div>
               </div>
+            </div>
+            
+            <button
+              onClick={() => {
+                localStorage.removeItem('defensoria_token');
+                localStorage.removeItem('defensoria_user');
+                window.location.reload();
+              }}
+              className="btn-metal bg-red-900/60 hover:bg-red-800 text-white px-3 py-1.5 rounded text-xs border border-red-700/50"
+            >
+              Salir
             </button>
-
-            {showRoleMenu && (
-              <div className="absolute right-0 mt-2 w-56 bg-parchment text-amber-950 rounded-md shadow-2xl border-2 border-amber-800 z-50 p-2">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-amber-900 border-b border-amber-800/20 pb-1 mb-2">
-                  Cambiar Rol de Sesión:
-                </div>
-                {rolesList.map(r => (
-                  <button
-                    key={r}
-                    onClick={() => {
-                      onRoleChange(r);
-                      setShowRoleMenu(false);
-                    }}
-                    className={`w-full text-left px-3 py-1.5 rounded text-xs flex items-center justify-between hover:bg-amber-200 ${
-                      currentUser.role === r ? 'bg-amber-300 font-bold text-amber-950' : 'text-amber-900'
-                    }`}
-                  >
-                    <span>{r}</span>
-                    {currentUser.role === r && <CheckCircle className="w-3.5 h-3.5 text-amber-800" />}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
 
         </div>

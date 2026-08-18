@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import type { UserProfile, UserRole, Plazo, CausaIngreso, TareaDiaria, Convenio, AtencionPublico, PushNotification, EstadoTarea } from './types';
-import { CURRENT_USER, INITIAL_PLAZOS, INITIAL_CAUSAS, INITIAL_TAREAS, INITIAL_CONVENIOS, INITIAL_ATENCION, INITIAL_NOTIFICATIONS } from './data/mockData';
+import type { UserProfile, UserRole, PushNotification } from './types';
+import { CURRENT_USER, INITIAL_NOTIFICATIONS } from './data/mockData';
 import { Header } from './components/layout/Header';
 import { Navbar } from './components/layout/Navbar';
 import { PlazosView } from './components/plazos/PlazosView';
@@ -9,12 +9,26 @@ import { TareasKanbanView } from './components/tareas/TareasKanbanView';
 import { ConveniosView } from './components/convenios/ConveniosView';
 import { AtencionPublicoView } from './components/atencion/AtencionPublicoView';
 import { EstadisticasView } from './components/estadisticas/EstadisticasView';
+import { AdminPanelView } from './components/admin/AdminPanelView';
+
+import { usePlazos } from './hooks/usePlazos';
+import { useCausas } from './hooks/useCausas';
+import { useTareas } from './hooks/useTareas';
+import { useConvenios } from './hooks/useConvenios';
+import { useAtenciones } from './hooks/useAtenciones';
+import { useAuth } from './context/AuthContext';
+import { LoginView } from './components/auth/LoginView';
 
 export type ThemeMode = 'skeuomorphic' | 'flat' | 'neumorphic' | 'claymorphism' | 'liquid-glass';
 export type ColorMode = 'light' | 'dark';
 
 export function App() {
-  const [user, setUser] = useState<UserProfile>(CURRENT_USER);
+  const { isAuthenticated, user, logout } = useAuth();
+
+  if (!isAuthenticated || !user) {
+    return <LoginView />;
+  }
+
   const [activeTab, setActiveTab] = useState<string>('plazos');
 
   const [theme, setTheme] = useState<ThemeMode>(() => {
@@ -52,94 +66,16 @@ export function App() {
     localStorage.setItem('defensoria_colormode', nextMode);
   };
 
-  const [plazos, setPlazos] = useState<Plazo[]>(INITIAL_PLAZOS);
-  const [causas, setCausas] = useState<CausaIngreso[]>(INITIAL_CAUSAS);
-  const [tareas, setTareas] = useState<TareaDiaria[]>(INITIAL_TAREAS);
-  const [convenios, setConvenios] = useState<Convenio[]>(INITIAL_CONVENIOS);
-  const [atenciones, setAtenciones] = useState<AtencionPublico[]>(INITIAL_ATENCION);
+  // Custom Hooks (React Query) connected to Hexagonal Backend
+  const { plazos, addPlazo, toggleComplete } = usePlazos();
+  const { causas, addCausa } = useCausas();
+  const { tareas, addTask, updateStatus } = useTareas();
+  const { convenios, addConvenio, updateResultado } = useConvenios();
+  const { atenciones, addAtencion } = useAtenciones();
+
   const [notifications, setNotifications] = useState<PushNotification[]>(INITIAL_NOTIFICATIONS);
 
   // Role Handler
-  const handleRoleChange = (newRole: UserRole) => {
-    setUser(prev => ({ ...prev, role: newRole }));
-  };
-
-  // Plazos Handlers
-  const handleAddPlazo = (newPlazo: Omit<Plazo, 'id'>) => {
-    const created: Plazo = {
-      ...newPlazo,
-      id: `plz-${Date.now()}`
-    };
-    setPlazos([created, ...plazos]);
-
-    // Push notification for urgent plazo
-    if (newPlazo.prioridad === 'URG') {
-      const notif: PushNotification = {
-        id: `nt-${Date.now()}`,
-        title: '⚠️ Nuevo Plazo URGENTE Registrado',
-        message: `${newPlazo.caratula.slice(0, 50)}... para ${newPlazo.fechaVencimiento}`,
-        timestamp: 'Ahora',
-        level: 'CRITICAL',
-        read: false,
-        linkTab: 'plazos'
-      };
-      setNotifications(prev => [notif, ...prev]);
-    }
-  };
-
-  const handleToggleCompletePlazo = (id: string) => {
-    setPlazos(plazos.map(p => {
-      if (p.id === id) {
-        const nextState = p.estado === 'CUMPLIDO' ? 'PENDIENTE' : 'CUMPLIDO';
-        return { ...p, estado: nextState };
-      }
-      return p;
-    }));
-  };
-
-  // Causas Handlers
-  const handleAddCausa = (newCausa: Omit<CausaIngreso, 'id'>) => {
-    const created: CausaIngreso = {
-      ...newCausa,
-      id: `causa-${Date.now()}`
-    };
-    setCausas([created, ...causas]);
-  };
-
-  // Tareas Handlers
-  const handleAddTask = (newTask: Omit<TareaDiaria, 'id'>) => {
-    const created: TareaDiaria = {
-      ...newTask,
-      id: `tar-${Date.now()}`
-    };
-    setTareas([created, ...tareas]);
-  };
-
-  const handleUpdateTaskStatus = (id: string, nextStatus: EstadoTarea) => {
-    setTareas(tareas.map(t => t.id === id ? { ...t, estado: nextStatus } : t));
-  };
-
-  // Convenios Handlers
-  const handleAddConvenio = (newCnv: Omit<Convenio, 'id'>) => {
-    const created: Convenio = {
-      ...newCnv,
-      id: `cnv-${Date.now()}`
-    };
-    setConvenios([created, ...convenios]);
-  };
-
-  const handleUpdateResultadoConvenio = (id: string, nuevoResultado: 'ACEPTADO' | 'EN TRÁMITE') => {
-    setConvenios(convenios.map(c => c.id === id ? { ...c, resultado: nuevoResultado, estado: nuevoResultado === 'ACEPTADO' ? 'INICIADO' : c.estado } : c));
-  };
-
-  // Atencion Publico Handler
-  const handleAddAtencion = (newAtn: Omit<AtencionPublico, 'id'>) => {
-    const created: AtencionPublico = {
-      ...newAtn,
-      id: `atn-${Date.now()}`
-    };
-    setAtenciones([created, ...atenciones]);
-  };
 
   // Notification Mark Read
   const handleMarkNotificationRead = (id: string) => {
@@ -154,7 +90,6 @@ export function App() {
       {/* Top Header */}
       <Header
         currentUser={user}
-        onRoleChange={handleRoleChange}
         notifications={notifications}
         onMarkNotificationRead={handleMarkNotificationRead}
         onNavigateTab={(t) => setActiveTab(t)}
@@ -169,6 +104,7 @@ export function App() {
         activeTab={activeTab}
         onSelectTab={setActiveTab}
         urgentPlazosCount={urgentPlazosCount}
+        currentUserRole={user.role}
       />
 
       {/* Main Workspace Area (Desks, Notebooks, Folders) */}
@@ -176,38 +112,38 @@ export function App() {
         {activeTab === 'plazos' && (
           <PlazosView
             plazos={plazos}
-            onAddPlazo={handleAddPlazo}
-            onToggleComplete={handleToggleCompletePlazo}
+            onAddPlazo={(p) => addPlazo(p)}
+            onToggleComplete={(id) => toggleComplete(id)}
           />
         )}
 
         {activeTab === 'causas' && (
           <IngresoCausasView
             causas={causas}
-            onAddCausa={handleAddCausa}
+            onAddCausa={(c) => addCausa(c)}
           />
         )}
 
         {activeTab === 'tareas' && (
           <TareasKanbanView
             tareas={tareas}
-            onAddTask={handleAddTask}
-            onUpdateStatus={handleUpdateTaskStatus}
+            onAddTask={(t) => addTask(t)}
+            onUpdateStatus={(id, st) => updateStatus(id, st)}
           />
         )}
 
         {activeTab === 'convenios' && (
           <ConveniosView
             convenios={convenios}
-            onAddConvenio={handleAddConvenio}
-            onUpdateResultado={handleUpdateResultadoConvenio}
+            onAddConvenio={(cnv) => addConvenio(cnv)}
+            onUpdateResultado={(id, res) => updateResultado(id, res)}
           />
         )}
 
         {activeTab === 'atencion' && (
           <AtencionPublicoView
             atenciones={atenciones}
-            onAddAtencion={handleAddAtencion}
+            onAddAtencion={(atn) => addAtencion(atn)}
           />
         )}
 
@@ -218,6 +154,10 @@ export function App() {
             tareas={tareas}
             convenios={convenios}
           />
+        )}
+
+        {activeTab === 'admin' && user.role === 'Administrador' && (
+          <AdminPanelView />
         )}
       </main>
 
@@ -240,7 +180,7 @@ export function App() {
           </div>
 
           <div className="font-mono text-[11px] text-amber-300/70">
-            Sistema de Gestión Integral v1.0 | Entorno VPS Cloud (Dokploy)
+            Sistema de Gestión Integral v1.0 | Arquitectura Hexagonal + PostgreSQL
           </div>
         </div>
       </footer>

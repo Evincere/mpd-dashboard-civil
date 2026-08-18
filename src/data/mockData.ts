@@ -2,10 +2,10 @@ import type { Plazo, CausaIngreso, TareaDiaria, Convenio, AtencionPublico, UserP
 
 export const CURRENT_USER: UserProfile = {
   id: 'usr-1',
-  name: 'Dr. Alvarado',
-  initials: 'LA',
-  role: 'Defensor/a',
-  email: 'alvarado@mpd.mendoza.gov.ar',
+  name: 'Sergio Pereyra',
+  initials: 'semper',
+  role: 'Administrador',
+  email: 'spereyra@mpd.mendoza.gov.ar',
   avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=120'
 };
 
@@ -15,8 +15,8 @@ export const INITIAL_PLAZOS: Plazo[] = [
     fechaVencimiento: '2026-08-06',
     caratula: 'HOSPITAL SCHESTAKOW P/CORDOVA SEBASTIAN P/ INTERNACIÓN INVOLUNTARIA',
     prioridad: 'URG',
-    asignadoInitials: 'LA',
-    asignadoNombre: 'Alvarado',
+    asignadoInitials: 'lalvarado',
+    asignadoNombre: 'Laura Alvarado',
     estado: 'PENDIENTE',
     expedienteNro: 'EXP-88912/26',
     observaciones: 'Vence plazo de contestación informe médico hospitalario.'
@@ -26,8 +26,8 @@ export const INITIAL_PLAZOS: Plazo[] = [
     fechaVencimiento: '2026-08-07',
     caratula: 'HOSPITAL SCHESTAKOW P/ OLQUIN IVAN IBRAHIM P/ INTERNACION (LEY SALUD 26.657)',
     prioridad: 'URG',
-    asignadoInitials: 'LA',
-    asignadoNombre: 'Alvarado',
+    asignadoInitials: 'lalvarado',
+    asignadoNombre: 'Laura Alvarado',
     estado: 'PENDIENTE',
     expedienteNro: 'EXP-90112/26'
   },
@@ -36,8 +36,8 @@ export const INITIAL_PLAZOS: Plazo[] = [
     fechaVencimiento: '2026-08-07',
     caratula: 'HOSPITAL SCHESTAKOW P/ AVILA JONATHAN P/ INTERNACION (LEY SALUD)',
     prioridad: 'URG',
-    asignadoInitials: 'LA',
-    asignadoNombre: 'Alvarado',
+    asignadoInitials: 'lalvarado',
+    asignadoNombre: 'Laura Alvarado',
     estado: 'PENDIENTE',
     expedienteNro: 'EXP-90150/26'
   },
@@ -46,8 +46,8 @@ export const INITIAL_PLAZOS: Plazo[] = [
     fechaVencimiento: '2026-08-08',
     caratula: 'OLATE EVA P BARRIOS VICTOR P DET DE CAPACIDAD',
     prioridad: 'S_P',
-    asignadoInitials: 'LA',
-    asignadoNombre: 'Alvarado',
+    asignadoInitials: 'lalvarado',
+    asignadoNombre: 'Laura Alvarado',
     estado: 'PENDIENTE',
     expedienteNro: 'EXP-77211/25'
   },
@@ -56,8 +56,8 @@ export const INITIAL_PLAZOS: Plazo[] = [
     fechaVencimiento: '2026-08-08',
     caratula: 'HOSPITAL SCHESTAKOW P/ YAÑEZ JOSE PABLO P/INTERNACIÓN',
     prioridad: 'URG',
-    asignadoInitials: 'JB',
-    asignadoNombre: 'JB - Secretario',
+    asignadoInitials: 'jbayon',
+    asignadoNombre: 'Jorgelina Bayon',
     estado: 'PENDIENTE'
   },
   {
@@ -65,8 +65,8 @@ export const INITIAL_PLAZOS: Plazo[] = [
     fechaVencimiento: '2026-08-10',
     caratula: 'MARTINEZ LEONIDES C/ SUCESORES DE ROMERO GONZALEZ JUAN P/ PRESCRIPCION ADQUISITIVA',
     prioridad: 'NORMAL',
-    asignadoInitials: 'LA',
-    asignadoNombre: 'Alvarado',
+    asignadoInitials: 'lalvarado',
+    asignadoNombre: 'Laura Alvarado',
     estado: 'PENDIENTE',
     observaciones: 'Presentar traslado de demanda.'
   },
@@ -75,8 +75,8 @@ export const INITIAL_PLAZOS: Plazo[] = [
     fechaVencimiento: '2026-08-11',
     caratula: 'GUEVARA MIRTA CRISTINA C/ SUCESORES DE CAPELLI ENRIQUE Y OLLARES',
     prioridad: 'URG',
-    asignadoInitials: 'LA',
-    asignadoNombre: 'Alvarado',
+    asignadoInitials: 'lalvarado',
+    asignadoNombre: 'Laura Alvarado',
     estado: 'PENDIENTE'
   },
   {
@@ -84,8 +84,8 @@ export const INITIAL_PLAZOS: Plazo[] = [
     fechaVencimiento: '2026-08-05',
     caratula: 'ASESORA P MARIA ELIZABETH GARCIA',
     prioridad: 'VENC',
-    asignadoInitials: 'JP',
-    asignadoNombre: 'JP',
+    asignadoInitials: 'semper',
+    asignadoNombre: 'Sergio Pereyra',
     estado: 'VENCIDO',
     observaciones: 'Solicitar prórroga urgente de vista.'
   },
@@ -94,8 +94,8 @@ export const INITIAL_PLAZOS: Plazo[] = [
     fechaVencimiento: '2026-08-14',
     caratula: 'VERGARA P/ SUCESIÓN: EXPRESIÓN AGRAVIOS',
     prioridad: 'NORMAL',
-    asignadoInitials: 'AD',
-    asignadoNombre: 'AD',
+    asignadoInitials: 'adimenza',
+    asignadoNombre: 'Alejandra Di Menza',
     estado: 'PENDIENTE'
   },
   {
@@ -103,8 +103,8 @@ export const INITIAL_PLAZOS: Plazo[] = [
     fechaVencimiento: '2026-08-15',
     caratula: 'CERVERA MYRIAM EDITH P/ BECERRA MARIA RAQUELA P/ DETERMINACIÓN DE CAPACIDAD',
     prioridad: 'URG',
-    asignadoInitials: 'LA',
-    asignadoNombre: 'Alvarado',
+    asignadoInitials: 'lalvarado',
+    asignadoNombre: 'Laura Alvarado',
     estado: 'PENDIENTE'
   }
 ];
@@ -189,7 +189,7 @@ export const INITIAL_TAREAS: TareaDiaria[] = [
     id: 'tar-1',
     fecha: '2026-08-06',
     caratulaPersona: 'BAJBUJ',
-    responsableNombre: 'ALVARADO',
+    responsableNombre: 'Laura Alvarado',
     accion: 'ASUME',
     estado: 'EN_PROCESO',
     notas: 'Tomar razón e informar al juzgado.'
@@ -198,7 +198,7 @@ export const INITIAL_TAREAS: TareaDiaria[] = [
     id: 'tar-2',
     fecha: '2026-08-06',
     caratulaPersona: 'ZAPATA NATALIA',
-    responsableNombre: 'ALVARADO',
+    responsableNombre: 'Laura Alvarado',
     accion: 'CONTESTA VISTA',
     estado: 'PENDIENTE',
     notas: 'Vence vista de 3 días.'
@@ -207,7 +207,7 @@ export const INITIAL_TAREAS: TareaDiaria[] = [
     id: 'tar-3',
     fecha: '2026-08-06',
     caratulaPersona: 'REVISION LISTADO DIVORCIO',
-    responsableNombre: 'ALVARADO',
+    responsableNombre: 'Laura Alvarado',
     accion: 'ACTA CON ANTECEDENTES',
     estado: 'COMPLETADA'
   },
@@ -215,7 +215,7 @@ export const INITIAL_TAREAS: TareaDiaria[] = [
     id: 'tar-4',
     fecha: '2026-08-05',
     caratulaPersona: 'DIV BILATERAL PAREJAS',
-    responsableNombre: 'ALVARADO',
+    responsableNombre: 'Laura Alvarado',
     accion: 'ASUME',
     estado: 'COMPLETADA'
   },
@@ -223,7 +223,7 @@ export const INITIAL_TAREAS: TareaDiaria[] = [
     id: 'tar-5',
     fecha: '2026-08-05',
     caratulaPersona: 'CARATTI',
-    responsableNombre: 'ALVARADO',
+    responsableNombre: 'Laura Alvarado',
     accion: 'PEDIR INF SUMARIA ESCRITO HECHO',
     estado: 'EN_PROCESO'
   },
@@ -231,7 +231,7 @@ export const INITIAL_TAREAS: TareaDiaria[] = [
     id: 'tar-6',
     fecha: '2026-08-04',
     caratulaPersona: 'ESTADISTICAS 4TO TRIMESTRE',
-    responsableNombre: 'ALVARADO',
+    responsableNombre: 'Laura Alvarado',
     accion: 'ESTADISTICAS',
     estado: 'COMPLETADA',
     notas: 'Estadísticas confeccionadas para enviar al MPD Central.'
@@ -240,7 +240,7 @@ export const INITIAL_TAREAS: TareaDiaria[] = [
     id: 'tar-7',
     fecha: '2026-08-04',
     caratulaPersona: 'MARTINEZ ROQUE C/ BODEGAS',
-    responsableNombre: 'ALVARADO',
+    responsableNombre: 'Laura Alvarado',
     accion: 'PRESCRIPCION ADQUISITIVA',
     estado: 'EN_PROCESO',
     notas: 'Asume patrocinio usucapión.'
@@ -249,7 +249,7 @@ export const INITIAL_TAREAS: TareaDiaria[] = [
     id: 'tar-8',
     fecha: '2026-08-03',
     caratulaPersona: 'RECLAMO ALCAYA',
-    responsableNombre: 'DI MENZA',
+    responsableNombre: 'Alejandra Di Menza',
     accion: 'SISTEMA TICKETS INGRESO RECLAMO',
     estado: 'PENDIENTE',
     notas: 'Ingresar reclamo administrativo en plataforma digital.'
@@ -258,7 +258,7 @@ export const INITIAL_TAREAS: TareaDiaria[] = [
     id: 'tar-9',
     fecha: '2026-08-02',
     caratulaPersona: 'LUEGO BEATRIZ',
-    responsableNombre: 'DI MENZA',
+    responsableNombre: 'Alejandra Di Menza',
     accion: 'AMPARO',
     estado: 'EN_PROCESO',
     notas: 'Interponer amparo de salud urgente.'

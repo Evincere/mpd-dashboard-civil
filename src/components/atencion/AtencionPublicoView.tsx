@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import type { AtencionPublico } from '../../types';
-import { PhoneCall, Plus, Search } from 'lucide-react';
+import { PhoneCall, Plus, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface AtencionPublicoViewProps {
   atenciones: AtencionPublico[];
@@ -15,11 +15,20 @@ export function AtencionPublicoView({
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
+
   // Form
   const [nombre, setNombre] = useState('');
   const [telefono, setTelefono] = useState('');
   const [motivo, setMotivo] = useState('');
   const [medio, setMedio] = useState<'WHATSAPP' | 'TELEFONO' | 'PRESENCIAL'>('WHATSAPP');
+
+  // Reset to page 1 on search / pageSize change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, pageSize]);
 
   const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -43,8 +52,13 @@ export function AtencionPublicoView({
 
   const filtered = atenciones.filter(a =>
     a.personaNombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    a.motivoConsulta.toLowerCase().includes(searchTerm.toLowerCase())
+    a.motivoConsulta.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (a.notas && a.notas.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+  const totalPages = Math.ceil(filtered.length / pageSize) || 1;
+  const startIndex = (currentPage - 1) * pageSize;
+  const paginated = filtered.slice(startIndex, startIndex + pageSize);
 
   return (
     <div className="p-4 md:p-6 space-y-6">
@@ -61,7 +75,7 @@ export function AtencionPublicoView({
               Registro de Atención al Público y WhatsApp / Teléfono
             </h2>
             <p className="text-slate-300 text-xs font-sans">
-              Seguimiento de consultas presenciales, llamadas y mensajes de usuarios de la Defensoría
+              Seguimiento de consultas presenciales, llamadas y mensajes de usuarios ({atenciones.length} consultas registradas)
             </p>
           </div>
         </div>
@@ -92,27 +106,83 @@ export function AtencionPublicoView({
 
       {/* Desk Logbook */}
       <div className="bg-parchment p-4 rounded-xl border-2 border-amber-900 shadow-2xl space-y-3">
-        {filtered.map(item => (
-          <div key={item.id} className="p-3.5 rounded-lg bg-amber-100/60 border border-amber-900/20 flex flex-col md:flex-row items-start justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="bg-amber-900 text-amber-100 text-[10px] font-mono font-bold px-2 py-0.5 rounded">
-                  {item.medioContacto}
-                </span>
-                <span className="font-mono text-xs font-bold text-amber-900">{item.fecha}</span>
-                <span className="text-xs font-bold text-emerald-900 bg-emerald-200/80 px-2 py-0.5 rounded">
-                  {item.telefonoWsp}
-                </span>
-              </div>
-              <h4 className="font-serif font-bold text-sm text-amber-950">{item.personaNombre}</h4>
-              <p className="text-xs font-sans text-amber-900 mt-1">{item.motivoConsulta}</p>
-            </div>
-
-            <div className="text-right whitespace-nowrap text-xs font-mono text-amber-800">
-              <span>Atendido por: {item.atendidoPor}</span>
-            </div>
+        {paginated.length === 0 ? (
+          <div className="py-8 text-center text-amber-900/60 font-serif italic text-xs">
+            No se encontraron consultas registradas.
           </div>
-        ))}
+        ) : (
+          paginated.map(item => (
+            <div key={item.id} className="p-3.5 rounded-lg bg-amber-100/60 border border-amber-900/20 flex flex-col md:flex-row items-start justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="bg-amber-900 text-amber-100 text-[10px] font-mono font-bold px-2 py-0.5 rounded">
+                    {item.medioContacto}
+                  </span>
+                  <span className="font-mono text-xs font-bold text-amber-900">{item.fecha}</span>
+                  <span className="text-xs font-bold text-emerald-900 bg-emerald-200/80 px-2 py-0.5 rounded">
+                    {item.telefonoWsp}
+                  </span>
+                </div>
+                <h4 className="font-serif font-bold text-sm text-amber-950">{item.personaNombre}</h4>
+                <p className="text-xs font-sans text-amber-900 mt-1">{item.motivoConsulta}</p>
+                {item.notas && (
+                  <p className="text-xs font-sans italic text-amber-800/90 mt-1 bg-amber-200/40 p-1.5 rounded">
+                    {item.notas}
+                  </p>
+                )}
+              </div>
+
+              <div className="text-right whitespace-nowrap text-xs font-mono text-amber-800">
+                <span>Atendido por: {item.atendidoPor}</span>
+              </div>
+            </div>
+          ))
+        )}
+
+        {/* Pagination Bar */}
+        <div className="bg-mahogany p-3.5 rounded-lg border border-amber-900 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-serif text-amber-100 mt-4">
+          <div className="flex items-center gap-2">
+            <span>Mostrar</span>
+            <select
+              value={pageSize}
+              onChange={(e) => setPageSize(Number(e.target.value))}
+              className="input-recessed text-xs py-0.5 px-2 font-mono text-amber-950"
+            >
+              <option value={15}>15 por pág.</option>
+              <option value={25}>25 por pág.</option>
+              <option value={50}>50 por pág.</option>
+              <option value={100}>100 por pág.</option>
+            </select>
+            <span className="text-amber-200 font-mono text-[11px] ml-2">
+              Mostrando {filtered.length > 0 ? startIndex + 1 : 0} - {Math.min(startIndex + pageSize, filtered.length)} de {filtered.length} consultas
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 font-mono">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              className="btn-metal px-2.5 py-1 text-xs disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <span>Anterior</span>
+            </button>
+
+            <span className="px-3 py-1 font-bold text-amber-200 dark:text-amber-200 bg-amber-950 dark:bg-slate-800 rounded border border-amber-700 dark:border-slate-600 shadow">
+              Pág. {currentPage} de {totalPages}
+            </span>
+
+            <button
+              disabled={currentPage >= totalPages}
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              className="btn-metal px-2.5 py-1 text-xs disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+            >
+              <span>Siguiente</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
       </div>
 
       {/* Modal Nueva Atención */}

@@ -1,16 +1,18 @@
 import type { FC } from 'react';
-import { Clock, Inbox, CheckSquare, FileText, PhoneCall, BarChart3 } from 'lucide-react';
+import { Clock, Inbox, CheckSquare, FileText, PhoneCall, BarChart3, ShieldCheck } from 'lucide-react';
 
 interface NavbarProps {
   activeTab: string;
   onSelectTab: (tabId: string) => void;
   urgentPlazosCount: number;
+  currentUserRole?: string;
 }
 
 export const Navbar: FC<NavbarProps> = ({
   activeTab,
   onSelectTab,
-  urgentPlazosCount
+  urgentPlazosCount,
+  currentUserRole
 }) => {
   const tabs = [
     {
@@ -44,7 +46,14 @@ export const Navbar: FC<NavbarProps> = ({
       id: 'estadisticas',
       label: 'ESTADÍSTICAS MPD',
       icon: BarChart3
-    }
+    },
+    ...(currentUserRole === 'Administrador' ? [{
+      id: 'admin',
+      label: 'ADMINISTRACIÓN',
+      icon: ShieldCheck,
+      badge: 'ADMIN',
+      badgeColor: 'bg-amber-600 text-white'
+    }] : [])
   ];
 
   return (

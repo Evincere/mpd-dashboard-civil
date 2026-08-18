@@ -1703,7 +1703,25 @@ body.theme-liquid-glass.dark-mode,
   }
 }
 
+/* ==========================================================================
+   GLOBAL DARK MODE TEXT CONTRAST FIXES
+   ========================================================================== */
+.dark-mode .text-amber-800,
+.dark-mode .text-amber-900,
+.dark-mode .text-amber-950,
+.dark-mode .text-amber-900\/80,
+.dark-mode .text-amber-900\/90 {
+  color: #f8fafc !important;
+}
 
+.dark-mode .bg-amber-100\/60,
+.dark-mode .bg-amber-200\/60 {
+  background-color: rgba(30, 41, 59, 0.6) !important;
+  color: #f8fafc !important;
+  border-color: rgba(71, 85, 105, 0.5) !important;
+}
 
-
-
+.dark-mode .border-amber-300\/40,
+.dark-mode .border-amber-900\/15 {
+  border-color: rgba(71, 85, 105, 0.5) !important;
+}

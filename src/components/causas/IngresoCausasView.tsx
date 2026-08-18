@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import type { CausaIngreso, CanalIngreso, TipoCausa, EnteHospital } from '../../types';
-import { Inbox, Plus, Search, Hospital } from 'lucide-react';
+import { Inbox, Plus, Search, Hospital, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface IngresoCausasViewProps {
   causas: CausaIngreso[];
@@ -17,6 +17,10 @@ export function IngresoCausasView({
   const [filterHospital, setFilterHospital] = useState<string>('ALL');
   const [showModal, setShowModal] = useState(false);
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
+
   // New Causa Form State
   const [newCanal, setNewCanal] = useState<CanalIngreso>('GEJU');
   const [newCaratula, setNewCaratula] = useState('');
@@ -24,6 +28,11 @@ export function IngresoCausasView({
   const [newHospital, setNewHospital] = useState<EnteHospital>('HOSPITAL SCHESTAKOW');
   const [newExpediente, setNewExpediente] = useState('');
   const [newObservaciones, setNewObservaciones] = useState('');
+
+  // Reset to page 1 on filter change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterCanal, filterHospital, pageSize]);
 
   const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -58,6 +67,10 @@ export function IngresoCausasView({
     return matchesSearch && matchesCanal && matchesHospital;
   });
 
+  const totalPages = Math.ceil(filteredCausas.length / pageSize) || 1;
+  const startIndex = (currentPage - 1) * pageSize;
+  const paginatedCausas = filteredCausas.slice(startIndex, startIndex + pageSize);
+
   return (
     <div className="p-4 md:p-6 space-y-6">
       
@@ -73,7 +86,7 @@ export function IngresoCausasView({
               Módulo de Ingreso / Egreso de Causas (GEJU — IOL)
             </h2>
             <p className="text-slate-300 text-xs font-sans">
-              Registro centralizado de amparos, expedientes de Salud Mental Ley 26.657 y notificaciones
+              Registro centralizado de amparos, expedientes de Salud Mental Ley 26.657 y notificaciones ({causas.length} causas acumuladas)
             </p>
           </div>
         </div>
@@ -133,7 +146,7 @@ export function IngresoCausasView({
       </div>
 
       {/* List / Table of Causas rendered on Parchment Sheets */}
-      <div className="bg-parchment p-4 rounded-xl border-2 border-amber-900 shadow-2xl overflow-x-auto">
+      <div className="bg-parchment p-4 rounded-xl border-2 border-amber-900 shadow-2xl overflow-x-auto space-y-4">
         
         <table className="w-full text-left text-xs font-serif text-amber-950 border-collapse">
           <thead>
@@ -146,80 +159,134 @@ export function IngresoCausasView({
             </tr>
           </thead>
           <tbody className="divide-y divide-amber-900/10">
-            {filteredCausas.map((causa) => {
-              const isSaludMental = causa.caratula.includes('26657') || causa.caratula.includes('INTERNACIÓN') || causa.tipoCausa === 'INTERNACION_INVOLUNTARIA';
+            {paginatedCausas.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="py-8 text-center text-amber-900/60 font-serif italic text-xs">
+                  No se encontraron causas que coincidan con la búsqueda.
+                </td>
+              </tr>
+            ) : (
+              paginatedCausas.map((causa) => {
+                const isSaludMental = causa.caratula.includes('26657') || causa.caratula.includes('INTERNACIÓN') || causa.tipoCausa === 'INTERNACION_INVOLUNTARIA';
 
-              return (
-                <tr key={causa.id} className="hover:bg-amber-100/70 transition">
-                  
-                  {/* Fecha */}
-                  <td className="py-3 px-3 font-mono font-bold text-amber-900 whitespace-nowrap">
-                    {causa.fechaIngreso}
-                  </td>
+                return (
+                  <tr key={causa.id} className="hover:bg-amber-100/70 transition">
+                    
+                    {/* Fecha */}
+                    <td className="py-3 px-3 font-mono font-bold text-amber-900 whitespace-nowrap">
+                      {causa.fechaIngreso}
+                    </td>
 
-                  {/* Vía / Sistema */}
-                  <td className="py-3 px-3">
-                    <span className="bg-amber-900 text-amber-100 font-mono font-bold text-[11px] px-2 py-0.5 rounded border border-amber-700">
-                      {causa.canal}
-                    </span>
-                    <div className="text-[10px] text-amber-800 font-mono mt-0.5">
-                      {causa.sistema}
-                    </div>
-                  </td>
+                    {/* Vía / Sistema */}
+                    <td className="py-3 px-3">
+                      <span className="bg-amber-900 text-amber-100 font-mono font-bold text-[11px] px-2 py-0.5 rounded border border-amber-700">
+                        {causa.canal}
+                      </span>
+                      <div className="text-[10px] text-amber-800 font-mono mt-0.5">
+                        {causa.sistema}
+                      </div>
+                    </td>
 
-                  {/* Tipo / Estado Badges */}
-                  <td className="py-3 px-3">
-                    <div className="flex flex-col items-start gap-1">
-                      {isSaludMental ? (
-                        <span className="stamp-badge stamp-salud-mental text-[10px]">
-                          LEY 26.657 SALUD MENTAL
+                    {/* Tipo / Estado Badges */}
+                    <td className="py-3 px-3">
+                      <div className="flex flex-col items-start gap-1">
+                        {isSaludMental ? (
+                          <span className="stamp-badge stamp-salud-mental text-[10px]">
+                            LEY 26.657 SALUD MENTAL
+                          </span>
+                        ) : (
+                          <span className="stamp-badge stamp-asumido text-[10px]">
+                            {causa.tipoCausa}
+                          </span>
+                        )}
+
+                        <span className={`text-[10px] font-mono font-bold ${
+                          causa.estadoCausa === 'NUEVA' ? 'text-red-700' : 'text-amber-800'
+                        }`}>
+                          ● {causa.estadoCausa}
                         </span>
-                      ) : (
-                        <span className="stamp-badge stamp-asumido text-[10px]">
-                          {causa.tipoCausa}
-                        </span>
+                      </div>
+                    </td>
+
+                    {/* Carátula */}
+                    <td className="py-3 px-3">
+                      <div className="font-bold text-sm text-amber-950 leading-snug">
+                        {causa.caratula}
+                      </div>
+
+                      {causa.enteHospital && (
+                        <div className="text-xs text-blue-900 font-bold flex items-center gap-1 mt-1">
+                          <Hospital className="w-3.5 h-3.5 text-blue-800" />
+                          {causa.enteHospital}
+                        </div>
                       )}
 
-                      <span className={`text-[10px] font-mono font-bold ${
-                        causa.estadoCausa === 'NUEVA' ? 'text-red-700' : 'text-amber-800'
-                      }`}>
-                        ● {causa.estadoCausa}
+                      {causa.observaciones && (
+                        <div className="text-xs text-amber-800 italic mt-1 bg-amber-100/50 p-1 rounded">
+                          Note: {causa.observaciones}
+                        </div>
+                      )}
+                    </td>
+
+                    {/* Action button */}
+                    <td className="py-3 px-3 text-right whitespace-nowrap">
+                      <span className="inline-block bg-amber-200/80 text-amber-950 text-xs px-2.5 py-1 rounded font-mono border border-amber-800/20 font-bold">
+                        {causa.expedienteNro || 'S/N Expte'}
                       </span>
-                    </div>
-                  </td>
+                    </td>
 
-                  {/* Carátula */}
-                  <td className="py-3 px-3">
-                    <div className="font-bold text-sm text-amber-950 leading-snug">
-                      {causa.caratula}
-                    </div>
-
-                    {causa.enteHospital && (
-                      <div className="text-xs text-blue-900 font-bold flex items-center gap-1 mt-1">
-                        <Hospital className="w-3.5 h-3.5 text-blue-800" />
-                        {causa.enteHospital}
-                      </div>
-                    )}
-
-                    {causa.observaciones && (
-                      <div className="text-xs text-amber-800 italic mt-1 bg-amber-100/50 p-1 rounded">
-                        Note: {causa.observaciones}
-                      </div>
-                    )}
-                  </td>
-
-                  {/* Action button */}
-                  <td className="py-3 px-3 text-right whitespace-nowrap">
-                    <span className="inline-block bg-amber-200/80 text-amber-950 text-xs px-2.5 py-1 rounded font-mono border border-amber-800/20 font-bold">
-                      {causa.expedienteNro || 'S/N Expte'}
-                    </span>
-                  </td>
-
-                </tr>
-              );
-            })}
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
+
+        {/* Pagination Bar */}
+        <div className="bg-amber-200/40 p-3 rounded-lg border border-amber-800/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-serif text-amber-950">
+          
+          <div className="flex items-center gap-2">
+            <span>Mostrar</span>
+            <select
+              value={pageSize}
+              onChange={(e) => setPageSize(Number(e.target.value))}
+              className="input-recessed text-xs py-0.5 px-2 font-mono"
+            >
+              <option value={15}>15 por pág.</option>
+              <option value={25}>25 por pág.</option>
+              <option value={50}>50 por pág.</option>
+              <option value={100}>100 por pág.</option>
+            </select>
+            <span className="text-amber-900 font-mono text-[11px] ml-2">
+              Mostrando {filteredCausas.length > 0 ? startIndex + 1 : 0} - {Math.min(startIndex + pageSize, filteredCausas.length)} de {filteredCausas.length} causas
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 font-mono">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              className="btn-metal px-2.5 py-1 text-xs disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <span>Anterior</span>
+            </button>
+
+            <span className="px-3 py-1 font-bold text-amber-200 dark:text-amber-200 bg-amber-950 dark:bg-slate-800 rounded border border-amber-700 dark:border-slate-600 shadow">
+              Pág. {currentPage} de {totalPages}
+            </span>
+
+            <button
+              disabled={currentPage >= totalPages}
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              className="btn-metal px-2.5 py-1 text-xs disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+            >
+              <span>Siguiente</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+        </div>
 
       </div>
 

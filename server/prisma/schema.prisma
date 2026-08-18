@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserProfile {
+  id        String   @id @default(uuid())
+  name      String
+  initials  String
+  role      String
+  email     String   @unique
+  password  String
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Plazo {
+  id               String   @id @default(uuid())
+  fechaVencimiento String
+  caratula         String
+  prioridad        String   // URG | S_P | VENC | NORMAL
+  asignadoInitials String
+  asignadoNombre   String?
+  estado           String   // PENDIENTE | CUMPLIDO | VENCIDO
+  expedienteNro    String?
+  observaciones    String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model CausaIngreso {
+  id                 String   @id @default(uuid())
+  fechaIngreso       String
+  canal              String   // GEJU | IOL | MAIL | PRESENCIAL
+  sistema            String
+  caratula           String
+  tipoCausa          String
+  enteHospital       String?
+  estadoCausa        String   // NUEVA | EN_TRAMITE | FINALIZADA
+  notificacionStatus String   // NOTIFICADO | SIN_NOTIFICAR | PENDIENTE_ENVIO
+  expedienteNro      String?
+  observaciones      String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model TareaDiaria {
+  id                String   @id @default(uuid())
+  fecha             String
+  caratulaPersona   String
+  responsableNombre String
+  accion            String
+  estado            String   // PENDIENTE | EN_PROCESO | COMPLETADA
+  notas             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Convenio {
+  id            String   @id @default(uuid())
+  fecha         String
+  estado        String   // NO INICIADO | INICIADO | EN TRÁMITE | ACEPTADO | RECHAZADO
+  expteCaratula String
+  resultado     String   // EN TRÁMITE | ACEPTADO | RECHAZADO | PENDIENTE
+  observaciones String
+  tipoConvenio  String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model AtencionPublico {
+  id             String   @id @default(uuid())
+  fecha          String
+  personaNombre  String
+  telefonoWsp    String
+  motivoConsulta String
+  medioContacto  String   // WHATSAPP | TELEFONO | PRESENCIAL
+  atendidoPor    String
+  estado         String   // RESUELTO | EN_SEGUIMIENTO | DERIVADO
+  notas          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  userId      String
+  userNombre  String
+  accion      String
+  entidad     String
+  entidadId   String?
+  detalles    String?
+  fechaHora   DateTime @default(now())
+}

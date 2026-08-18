@@ -61,21 +61,21 @@ export function EstadisticasView({
       </div>
 
       {/* Official Certificate / Report Sheet Metaphor */}
-      <div className="bg-parchment p-6 md:p-8 rounded-xl border-4 border-amber-900 shadow-2xl space-y-8 print:border-none print:shadow-none print:p-0">
+      <div className="bg-parchment dark:bg-slate-900 p-6 md:p-8 rounded-xl border-4 border-amber-900 dark:border-slate-700 shadow-2xl space-y-8 text-amber-950 dark:text-slate-100 print:border-none print:shadow-none print:p-0 print:bg-white print:text-black">
         
         {/* Institutional Header */}
-        <div className="border-b-2 border-amber-900/40 pb-4 text-center space-y-2">
+        <div className="border-b-2 border-amber-900/40 dark:border-slate-700 pb-4 text-center space-y-2">
           <div className="flex justify-center mb-1">
             <img
               src="/logos/logo2.png"
               alt="Ministerio Público de la Defensa Provincia de Mendoza"
-              className="h-28 md:h-32 object-contain"
+              className="h-28 md:h-32 object-contain dark:brightness-125"
             />
           </div>
-          <h2 className="text-base font-serif font-bold text-amber-900 tracking-wider uppercase">
+          <h2 className="text-base font-serif font-bold text-amber-950 dark:text-amber-200 tracking-wider uppercase">
             Defensoría Oficial Civil — Segunda Circunscripción Judicial (San Rafael)
           </h2>
-          <p className="text-xs font-mono text-amber-800">
+          <p className="text-xs font-mono text-amber-800 dark:text-amber-400">
             INFORME DE GESTIÓN Y MÉTRICAS DE TRAMITACIÓN JUDICIAL — AÑO 2026
           </p>
         </div>
@@ -83,28 +83,28 @@ export function EstadisticasView({
         {/* Key Performance Indicators (KPI Cards with Brass Borders) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           
-          <div className="bg-amber-100/70 p-4 rounded-lg border-2 border-amber-800/40 shadow-inner text-center space-y-1">
-            <span className="text-[11px] font-mono font-bold uppercase text-amber-900">Total Plazos Controlados</span>
-            <div className="text-3xl font-serif font-bold text-amber-950">{totalPlazos}</div>
-            <div className="text-xs text-amber-800 font-sans">{plazosUrgentes} definidos como URG</div>
+          <div className="bg-amber-100/80 dark:bg-slate-800/90 p-4 rounded-lg border-2 border-amber-800/40 dark:border-slate-700 shadow-inner text-center space-y-1">
+            <span className="text-[11px] font-mono font-bold uppercase text-amber-900 dark:text-slate-300">Total Plazos Controlados</span>
+            <div className="text-3xl font-serif font-bold text-amber-950 dark:text-amber-100">{totalPlazos}</div>
+            <div className="text-xs text-amber-800 dark:text-slate-400 font-sans">{plazosUrgentes} definidos como URG</div>
           </div>
 
-          <div className="bg-amber-100/70 p-4 rounded-lg border-2 border-amber-800/40 shadow-inner text-center space-y-1">
-            <span className="text-[11px] font-mono font-bold uppercase text-amber-900">Cumplimiento de Plazos</span>
-            <div className="text-3xl font-serif font-bold text-emerald-800">{eficiencialPct}%</div>
-            <div className="text-xs text-emerald-900 font-bold">{plazosCumplidos} de {totalPlazos} en regla</div>
+          <div className="bg-amber-100/80 dark:bg-slate-800/90 p-4 rounded-lg border-2 border-amber-800/40 dark:border-slate-700 shadow-inner text-center space-y-1">
+            <span className="text-[11px] font-mono font-bold uppercase text-amber-900 dark:text-slate-300">Cumplimiento de Plazos</span>
+            <div className="text-3xl font-serif font-bold text-emerald-800 dark:text-emerald-400">{eficiencialPct}%</div>
+            <div className="text-xs text-emerald-900 dark:text-emerald-300 font-bold">{plazosCumplidos} de {totalPlazos} en regla</div>
           </div>
 
-          <div className="bg-amber-100/70 p-4 rounded-lg border-2 border-amber-800/40 shadow-inner text-center space-y-1">
-            <span className="text-[11px] font-mono font-bold uppercase text-amber-900">Causas Ingresadas (2026)</span>
-            <div className="text-3xl font-serif font-bold text-blue-900">{totalCausas}</div>
-            <div className="text-xs text-blue-900 font-bold">{causasSaludMental} Ley Salud Mental 26.657</div>
+          <div className="bg-amber-100/80 dark:bg-slate-800/90 p-4 rounded-lg border-2 border-amber-800/40 dark:border-slate-700 shadow-inner text-center space-y-1">
+            <span className="text-[11px] font-mono font-bold uppercase text-amber-900 dark:text-slate-300">Causas Ingresadas (2026)</span>
+            <div className="text-3xl font-serif font-bold text-blue-900 dark:text-blue-400">{totalCausas}</div>
+            <div className="text-xs text-blue-900 dark:text-blue-300 font-bold">{causasSaludMental} Ley Salud Mental 26.657</div>
           </div>
 
-          <div className="bg-amber-100/70 p-4 rounded-lg border-2 border-amber-800/40 shadow-inner text-center space-y-1">
-            <span className="text-[11px] font-mono font-bold uppercase text-amber-900">Convenios Homologados</span>
-            <div className="text-3xl font-serif font-bold text-purple-900">{conveniosAceptados}</div>
-            <div className="text-xs text-purple-900 font-bold">{conveniosOsep} gestiones OSEP médicas</div>
+          <div className="bg-amber-100/80 dark:bg-slate-800/90 p-4 rounded-lg border-2 border-amber-800/40 dark:border-slate-700 shadow-inner text-center space-y-1">
+            <span className="text-[11px] font-mono font-bold uppercase text-amber-900 dark:text-slate-300">Convenios Homologados</span>
+            <div className="text-3xl font-serif font-bold text-purple-900 dark:text-purple-400">{conveniosAceptados}</div>
+            <div className="text-xs text-purple-900 dark:text-purple-300 font-bold">{conveniosOsep} gestiones OSEP médicas</div>
           </div>
 
         </div>
@@ -113,47 +113,47 @@ export function EstadisticasView({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
           
           {/* Salud Mental Breakdown */}
-          <div className="bg-amber-50 p-4 rounded-lg border border-amber-900/30 space-y-3">
-            <h3 className="font-serif font-bold text-sm text-amber-950 flex items-center gap-2 border-b border-amber-900/20 pb-2">
-              <Hospital className="w-4 h-4 text-purple-800" />
+          <div className="bg-amber-50 dark:bg-slate-800/60 p-4 rounded-lg border border-amber-900/30 dark:border-slate-700 space-y-3">
+            <h3 className="font-serif font-bold text-sm text-amber-950 dark:text-amber-200 flex items-center gap-2 border-b border-amber-900/20 dark:border-slate-700 pb-2">
+              <Hospital className="w-4 h-4 text-purple-700 dark:text-purple-400" />
               Internaciones Involuntarias por Hospital (Ley 26.657)
             </h3>
             
-            <div className="space-y-2 text-xs font-serif">
+            <div className="space-y-3 text-xs font-serif">
               <div>
-                <div className="flex justify-between text-amber-900 mb-1">
+                <div className="flex justify-between text-amber-950 dark:text-slate-200 mb-1 font-semibold">
                   <span>Hospital Schestakow (San Rafael)</span>
                   <span className="font-bold font-mono">{causasSchestakow} causas</span>
                 </div>
-                <div className="w-full bg-amber-200 rounded-full h-2.5 overflow-hidden">
-                  <div className="bg-purple-800 h-2.5 rounded-full" style={{ width: `${totalCausas > 0 ? (causasSchestakow/totalCausas)*100 : 0}%` }} />
+                <div className="w-full bg-amber-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden p-0.5">
+                  <div className="bg-purple-700 dark:bg-purple-500 h-2 rounded-full transition-all" style={{ width: `${totalCausas > 0 ? (causasSchestakow/totalCausas)*100 : 0}%` }} />
                 </div>
               </div>
 
               <div>
-                <div className="flex justify-between text-amber-900 mb-1">
+                <div className="flex justify-between text-amber-950 dark:text-slate-200 mb-1 font-semibold">
                   <span>Hospital Regional Malargüe</span>
                   <span className="font-bold font-mono">{causasMalargue} causas</span>
                 </div>
-                <div className="w-full bg-amber-200 rounded-full h-2.5 overflow-hidden">
-                  <div className="bg-purple-600 h-2.5 rounded-full" style={{ width: `${totalCausas > 0 ? (causasMalargue/totalCausas)*100 : 0}%` }} />
+                <div className="w-full bg-amber-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden p-0.5">
+                  <div className="bg-purple-500 dark:bg-purple-400 h-2 rounded-full transition-all" style={{ width: `${totalCausas > 0 ? (causasMalargue/totalCausas)*100 : 0}%` }} />
                 </div>
               </div>
             </div>
           </div>
 
           {/* Efficiency Bar */}
-          <div className="bg-amber-50 p-4 rounded-lg border border-amber-900/30 space-y-3">
-            <h3 className="font-serif font-bold text-sm text-amber-950 flex items-center gap-2 border-b border-amber-900/20 pb-2">
-              <Award className="w-4 h-4 text-amber-800" />
+          <div className="bg-amber-50 dark:bg-slate-800/60 p-4 rounded-lg border border-amber-900/30 dark:border-slate-700 space-y-3">
+            <h3 className="font-serif font-bold text-sm text-amber-950 dark:text-amber-200 flex items-center gap-2 border-b border-amber-900/20 dark:border-slate-700 pb-2">
+              <Award className="w-4 h-4 text-amber-800 dark:text-amber-400" />
               Resumen de Eficiencia en Carga y Respuestas
             </h3>
             
-            <p className="text-xs text-amber-900 font-sans leading-relaxed">
+            <p className="text-xs text-amber-900 dark:text-slate-300 font-sans leading-relaxed">
               El entorno unificado automatizado ha eliminado el riesgo de omisión visual en hojas de cálculo compartidas. Se redujo el tiempo medio de respuesta en internaciones de salud mental a menos de 24 hs.
             </p>
 
-            <div className="p-3 bg-amber-100/80 rounded border border-amber-300 text-xs font-serif text-amber-950 font-bold text-center">
+            <div className="p-3 bg-amber-100/90 dark:bg-slate-700/80 rounded border border-amber-300 dark:border-slate-600 text-xs font-serif text-amber-950 dark:text-amber-200 font-bold text-center">
               ✓ Registros exportados para elevar a la Jefatura del MPD Mendoza.
             </div>
           </div>
@@ -161,16 +161,16 @@ export function EstadisticasView({
         </div>
 
         {/* Official Signature Area */}
-        <div className="pt-8 border-t-2 border-amber-900/30 flex justify-between items-end text-xs font-serif text-amber-950">
+        <div className="pt-8 border-t-2 border-amber-900/30 dark:border-slate-700 flex justify-between items-end text-xs font-serif text-amber-950 dark:text-slate-200">
           <div>
             <div className="stamp-badge stamp-homologado">REGISTRO OFICIAL CONFIRMADO</div>
-            <p className="text-[10px] text-amber-800 mt-1 font-mono">Generado el: {new Date().toLocaleDateString('es-AR')}</p>
+            <p className="text-[10px] text-amber-800 dark:text-slate-400 mt-1 font-mono">Generado el: {new Date().toLocaleDateString('es-AR')}</p>
           </div>
 
           <div className="text-center space-y-1">
-            <div className="w-48 border-b border-amber-950 mb-1"></div>
-            <div className="font-bold">Firma Defensor/a Oficial Civil</div>
-            <div className="text-[10px] text-amber-800">Defensoría Civil San Rafael — MPD</div>
+            <div className="w-48 border-b border-amber-950 dark:border-slate-400 mb-1"></div>
+            <div className="font-bold text-amber-950 dark:text-slate-200">Firma Defensor/a Oficial Civil</div>
+            <div className="text-[10px] text-amber-800 dark:text-slate-400">Defensoría Civil San Rafael — MPD</div>
           </div>
         </div>
 
