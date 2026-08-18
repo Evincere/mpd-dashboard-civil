@@ -1,20 +1,20 @@
 #!/bin/sh
 
-echo "🚀 Starting Node.js Backend Server on port 3001..."
+export DATABASE_URL="${DATABASE_URL:-postgresql://postgres:postgrespassword@localhost:5432/defensoria_db?schema=public}"
 
-# Run database setup non-blocking in background so Nginx starts immediately
+echo "🚀 Starting Node.js Backend Server on port 3001..."
+echo "📊 Database URL configured: $DATABASE_URL"
+
 (
   cd /app/server
   echo "📦 Initializing Prisma client & schema..."
   ./node_modules/.bin/prisma generate || true
-  
-  if [ -n "$DATABASE_URL" ]; then
-    echo "💾 Applying database schema to PostgreSQL..."
-    ./node_modules/.bin/prisma db push --skip-generate || true
-    ./node_modules/.bin/tsx seed.ts || true
-  else
-    echo "⚠️ DATABASE_URL not defined. Skipping DB migrations."
-  fi
+
+  echo "💾 Applying database schema..."
+  ./node_modules/.bin/prisma db push --skip-generate || true
+
+  echo "🌱 Seeding initial users and historical data..."
+  ./node_modules/.bin/tsx seed.ts || true
 
   echo "⚡ Starting Express server..."
   ./node_modules/.bin/tsx src/index.ts
