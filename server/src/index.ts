@@ -36,6 +36,6 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor Backend Hexagonal corriendo en http://localhost:${PORT}`);
+app.listen(Number(PORT), '0.0.0.0', () => {
+  console.log(`🚀 Servidor Backend Hexagonal corriendo en http://0.0.0.0:${PORT}`);
 });

@@ -9,10 +9,17 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# Stage 2: Serve with Nginx
+# Stage 2: Serve Frontend with Nginx & Backend with Node.js
 FROM nginx:alpine
+RUN apk add --no-cache nodejs npm
+
+WORKDIR /app
 COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/server ./server
+COPY --from=builder /app/docker-start.sh ./docker-start.sh
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80 3000
-CMD ["nginx", "-g", "daemon off;"]
+RUN chmod +x ./docker-start.sh
+
+EXPOSE 80 3000 3001
+CMD ["/app/docker-start.sh"]
