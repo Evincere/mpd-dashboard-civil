@@ -4,17 +4,22 @@ import { prisma } from '../prisma/client.js';
 
 export class PrismaPlazoRepository implements PlazoRepositoryPort {
   async findAll(): Promise<Plazo[]> {
-    const rawPlazos = await prisma.plazo.findMany({
-      orderBy: { createdAt: 'desc' }
-    });
-    return rawPlazos.map((p: any) => new Plazo({
-      ...p,
-      prioridad: p.prioridad as PrioridadPlazo,
-      estado: p.estado as EstadoPlazo,
-      asignadoNombre: p.asignadoNombre ?? undefined,
-      expedienteNro: p.expedienteNro ?? undefined,
-      observaciones: p.observaciones ?? undefined
-    }));
+    try {
+      const rawPlazos = await prisma.plazo.findMany({
+        orderBy: { createdAt: 'desc' }
+      });
+      return rawPlazos.map((p: any) => new Plazo({
+        ...p,
+        prioridad: p.prioridad as PrioridadPlazo,
+        estado: p.estado as EstadoPlazo,
+        asignadoNombre: p.asignadoNombre ?? undefined,
+        expedienteNro: p.expedienteNro ?? undefined,
+        observaciones: p.observaciones ?? undefined
+      }));
+    } catch (error) {
+      console.warn('⚠️ Could not fetch plazos from DB:', error);
+      return [];
+    }
   }
 
   async findById(id: string): Promise<Plazo | null> {

@@ -4,19 +4,24 @@ import { prisma } from '../prisma/client.js';
 
 export class PrismaCausaRepository implements CausaRepositoryPort {
   async findAll(): Promise<CausaIngreso[]> {
-    const raw = await prisma.causaIngreso.findMany({
-      orderBy: { createdAt: 'desc' }
-    });
-    return raw.map((c: any) => new CausaIngreso({
-      ...c,
-      canal: c.canal as CanalIngreso,
-      tipoCausa: c.tipoCausa as TipoCausa,
-      enteHospital: (c.enteHospital as EnteHospital) ?? undefined,
-      estadoCausa: c.estadoCausa as EstadoCausa,
-      notificacionStatus: c.notificacionStatus as any,
-      expedienteNro: c.expedienteNro ?? undefined,
-      observaciones: c.observaciones ?? undefined
-    }));
+    try {
+      const raw = await prisma.causaIngreso.findMany({
+        orderBy: { createdAt: 'desc' }
+      });
+      return raw.map((c: any) => new CausaIngreso({
+        ...c,
+        canal: c.canal as CanalIngreso,
+        tipoCausa: c.tipoCausa as TipoCausa,
+        enteHospital: (c.enteHospital as EnteHospital) ?? undefined,
+        estadoCausa: c.estadoCausa as EstadoCausa,
+        notificacionStatus: c.notificacionStatus as any,
+        expedienteNro: c.expedienteNro ?? undefined,
+        observaciones: c.observaciones ?? undefined
+      }));
+    } catch (error) {
+      console.warn('⚠️ Could not fetch causas from DB:', error);
+      return [];
+    }
   }
 
   async findById(id: string): Promise<CausaIngreso | null> {

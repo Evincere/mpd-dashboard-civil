@@ -4,15 +4,20 @@ import { prisma } from '../prisma/client.js';
 
 export class PrismaAtencionRepository implements AtencionRepositoryPort {
   async findAll(): Promise<AtencionPublico[]> {
-    const raw = await prisma.atencionPublico.findMany({
-      orderBy: { createdAt: 'desc' }
-    });
-    return raw.map((a: any) => new AtencionPublico({
-      ...a,
-      medioContacto: a.medioContacto as MedioContacto,
-      estado: a.estado as EstadoAtencion,
-      notas: a.notas ?? undefined
-    }));
+    try {
+      const raw = await prisma.atencionPublico.findMany({
+        orderBy: { createdAt: 'desc' }
+      });
+      return raw.map((a: any) => new AtencionPublico({
+        ...a,
+        medioContacto: a.medioContacto as MedioContacto,
+        estado: a.estado as EstadoAtencion,
+        notas: a.notas ?? undefined
+      }));
+    } catch (error) {
+      console.warn('⚠️ Could not fetch atencion records from DB:', error);
+      return [];
+    }
   }
 
   async findById(id: string): Promise<AtencionPublico | null> {

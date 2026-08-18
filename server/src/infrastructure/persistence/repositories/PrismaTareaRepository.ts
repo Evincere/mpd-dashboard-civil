@@ -4,14 +4,19 @@ import { prisma } from '../prisma/client.js';
 
 export class PrismaTareaRepository implements TareaRepositoryPort {
   async findAll(): Promise<TareaDiaria[]> {
-    const raw = await prisma.tareaDiaria.findMany({
-      orderBy: { createdAt: 'desc' }
-    });
-    return raw.map((t: any) => new TareaDiaria({
-      ...t,
-      estado: t.estado as EstadoTarea,
-      notas: t.notas ?? undefined
-    }));
+    try {
+      const raw = await prisma.tareaDiaria.findMany({
+        orderBy: { createdAt: 'desc' }
+      });
+      return raw.map((t: any) => new TareaDiaria({
+        ...t,
+        estado: t.estado as EstadoTarea,
+        notas: t.notas ?? undefined
+      }));
+    } catch (error) {
+      console.warn('⚠️ Could not fetch tareas from DB:', error);
+      return [];
+    }
   }
 
   async findById(id: string): Promise<TareaDiaria | null> {

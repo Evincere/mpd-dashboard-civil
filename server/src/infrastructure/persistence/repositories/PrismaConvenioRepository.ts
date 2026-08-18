@@ -4,14 +4,19 @@ import { prisma } from '../prisma/client.js';
 
 export class PrismaConvenioRepository implements ConvenioRepositoryPort {
   async findAll(): Promise<Convenio[]> {
-    const raw = await prisma.convenio.findMany({
-      orderBy: { createdAt: 'desc' }
-    });
-    return raw.map((c: any) => new Convenio({
-      ...c,
-      estado: c.estado as EstadoConvenio,
-      resultado: c.resultado as ResultadoConvenio
-    }));
+    try {
+      const raw = await prisma.convenio.findMany({
+        orderBy: { createdAt: 'desc' }
+      });
+      return raw.map((c: any) => new Convenio({
+        ...c,
+        estado: c.estado as EstadoConvenio,
+        resultado: c.resultado as ResultadoConvenio
+      }));
+    } catch (error) {
+      console.warn('⚠️ Could not fetch convenios from DB:', error);
+      return [];
+    }
   }
 
   async findById(id: string): Promise<Convenio | null> {
