@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import type { UserProfile, UserRole, PushNotification } from '../../types';
-import { Bell, User, CheckCircle, Sparkles, LayoutGrid, Droplets, Shapes, Gem, Sun, Moon } from 'lucide-react';
+import type { UserProfile, PushNotification } from '../../types';
+import { Bell, User, Sparkles, LayoutGrid, Droplets, Shapes, Gem, Sun, Moon } from 'lucide-react';
 
 interface HeaderProps {
   currentUser: UserProfile;

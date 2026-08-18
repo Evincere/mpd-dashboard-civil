@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import type { UserProfile, UserRole, PushNotification } from './types';
-import { CURRENT_USER, INITIAL_NOTIFICATIONS } from './data/mockData';
+import type { PushNotification } from './types';
+import { INITIAL_NOTIFICATIONS } from './data/mockData';
 import { Header } from './components/layout/Header';
 import { Navbar } from './components/layout/Navbar';
 import { PlazosView } from './components/plazos/PlazosView';
@@ -23,7 +23,7 @@ export type ThemeMode = 'skeuomorphic' | 'flat' | 'neumorphic' | 'claymorphism' 
 export type ColorMode = 'light' | 'dark';
 
 export function App() {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   if (!isAuthenticated || !user) {
     return <LoginView />;
@@ -156,7 +156,7 @@ export function App() {
           />
         )}
 
-        {activeTab === 'admin' && user.role === 'Administrador' && (
+        {(user.role === 'Administrador' || user.role === 'ADMIN') && activeTab === 'admin' && (
           <AdminPanelView />
         )}
       </main>

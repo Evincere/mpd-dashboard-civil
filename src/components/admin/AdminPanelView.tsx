@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import type { FormEvent, ChangeEvent } from 'react';
-import { ShieldCheck, Users, Database, FileText, Plus, Trash2, Edit, Key, Activity, CheckCircle, RefreshCw, Server, AlertCircle, Eye, EyeOff, Download, Upload, Wrench } from 'lucide-react';
+import { ShieldCheck, Users, Database, Plus, Trash2, Edit, Activity, CheckCircle, RefreshCw, Server, Eye, EyeOff, Download, Upload } from 'lucide-react';
 
 interface UserData {
   id: string;
@@ -44,7 +44,6 @@ export function AdminPanelView() {
   const [users, setUsers] = useState<UserData[]>([]);
   const [auditLogs, setAuditLogs] = useState<AuditLogData[]>([]);
   const [dbStats, setDbStats] = useState<DbStats | null>(null);
-  const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
@@ -71,7 +70,6 @@ export function AdminPanelView() {
   ];
 
   const fetchUsers = async () => {
-    setLoading(true);
     try {
       const res = await fetch('http://localhost:3001/api/admin/users');
       if (res.ok) {
@@ -80,13 +78,10 @@ export function AdminPanelView() {
       }
     } catch (e: any) {
       console.error('Error fetching users:', e);
-    } finally {
-      setLoading(false);
     }
   };
 
   const fetchAuditLogs = async () => {
-    setLoading(true);
     try {
       const res = await fetch('http://localhost:3001/api/admin/audit-logs');
       if (res.ok) {
@@ -95,13 +90,10 @@ export function AdminPanelView() {
       }
     } catch (e: any) {
       console.error('Error fetching audit logs:', e);
-    } finally {
-      setLoading(false);
     }
   };
 
   const fetchDbStats = async () => {
-    setLoading(true);
     try {
       const res = await fetch('http://localhost:3001/api/admin/db-stats');
       if (res.ok) {
@@ -110,8 +102,6 @@ export function AdminPanelView() {
       }
     } catch (e: any) {
       console.error('Error fetching DB stats:', e);
-    } finally {
-      setLoading(false);
     }
   };
 
