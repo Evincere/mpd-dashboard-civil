@@ -14,7 +14,7 @@ echo "📊 Database URL configured: $DATABASE_URL"
   ./node_modules/.bin/prisma db push --skip-generate || true
 
   echo "🌱 Seeding initial users and historical data..."
-  ./node_modules/.bin/tsx seed.ts || true
+  ./node_modules/.bin/tsx prisma/seed.ts || true
 
   echo "⚡ Starting Express server..."
   ./node_modules/.bin/tsx src/index.ts
