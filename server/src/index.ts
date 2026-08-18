@@ -18,14 +18,14 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/plazos', plazoRoutes);
-app.use('/api/causas', causaRoutes);
-app.use('/api/tareas', tareaRoutes);
-app.use('/api/convenios', convenioRoutes);
-app.use('/api/atencion', atencionRoutes);
-app.use('/api/admin', adminRoutes);
+// Routes with and without /api prefix for proxy resilience
+['/api/auth', '/auth'].forEach(p => app.use(p, authRoutes));
+['/api/plazos', '/plazos'].forEach(p => app.use(p, plazoRoutes));
+['/api/causas', '/causas'].forEach(p => app.use(p, causaRoutes));
+['/api/tareas', '/tareas'].forEach(p => app.use(p, tareaRoutes));
+['/api/convenios', '/convenios'].forEach(p => app.use(p, convenioRoutes));
+['/api/atencion', '/atencion'].forEach(p => app.use(p, atencionRoutes));
+['/api/admin', '/admin'].forEach(p => app.use(p, adminRoutes));
 
 // Global Error Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
